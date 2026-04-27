@@ -70,15 +70,24 @@ export function Servicios() {
                       </h3>
                       <AnimatePresence initial={false}>
                         {isActive && (
-                          <motion.p
+                          <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.4, ease: easeOrganic }}
-                            className="mt-3 max-w-md overflow-hidden text-sm text-bone/65"
+                            className="overflow-hidden"
                           >
-                            <span className="block py-1">{s.bajada}</span>
-                          </motion.p>
+                            <p className="mt-3 max-w-md text-sm text-bone/65">
+                              {s.bajada}
+                            </p>
+                            {/* Imagen inline solo en mobile (en desktop hay preview sticky al costado) */}
+                            <div className="mt-4 md:hidden">
+                              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl ring-1 ring-magenta/30">
+                                <img src={s.img} alt={s.titulo} className="h-full w-full object-cover" loading="lazy" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent" />
+                              </div>
+                            </div>
+                          </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
@@ -97,8 +106,8 @@ export function Servicios() {
             </div>
           </ul>
 
-          {/* Preview con borde gradient animado */}
-          <div className="md:col-span-6 md:col-start-7">
+          {/* Preview con borde gradient animado — solo desktop (mobile renderiza imagen inline en el item activo) */}
+          <div className="hidden md:col-span-6 md:col-start-7 md:block">
             <div className="md:sticky md:top-28">
               <div className="border-gradient relative rounded-3xl p-1">
                 <AnimatePresence mode="wait">

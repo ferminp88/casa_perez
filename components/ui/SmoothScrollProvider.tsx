@@ -9,7 +9,10 @@ import Lenis from "lenis";
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    // Skip Lenis en touch devices: el smooth nativo de iOS/Android es mejor
+    // y libera el thread JS para animaciones críticas.
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    if (prefersReduced || isTouch) return;
 
     const lenis = new Lenis({
       duration: 1.15,

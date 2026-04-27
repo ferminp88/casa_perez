@@ -67,6 +67,8 @@ export function ImageComparison({
   return (
     <div
       ref={ref}
+      data-lenis-prevent
+      style={{ touchAction: "none" }}
       className={clsx(
         "relative aspect-[16/9] w-full select-none overflow-hidden rounded-3xl bg-obsidian ring-1 ring-bone/8",
         dragging ? "cursor-grabbing" : "cursor-ew-resize",

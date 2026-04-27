@@ -84,9 +84,75 @@ export function ScrollMediaExpansion({
     <section
       ref={ref}
       id={`salon-${id}`}
-      className="relative h-[420vh] bg-night"
+      className="relative bg-night md:h-[420vh]"
     >
-      <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
+      {/* — Mobile fallback: layout vertical liviano, sin sticky/scroll-driven.
+            Evita los 420vh de scroll vacío y las animaciones JS pesadas. */}
+      <div className="md:hidden bg-night px-6 py-16">
+        <div className="mb-6 flex items-center justify-between">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+            Salón {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">
+            {id}
+          </p>
+        </div>
+        <h3 className="mb-6 text-balance font-display text-[clamp(2.25rem,9vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+          {nombre.split(" ").map((w, i, arr) => (
+            <span key={i} className="mr-[0.18em] inline-block">
+              {i === arr.length - 1 ? (
+                <span className="font-editorial italic text-magenta-glow">{w}</span>
+              ) : (
+                w
+              )}
+            </span>
+          ))}
+        </h3>
+
+        {/* Hero principal */}
+        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-bone/10">
+          <img src={gallery[0]} alt={nombre} className="h-full w-full object-cover" loading={index === 0 ? "eager" : "lazy"} />
+          <div className="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent" />
+        </div>
+
+        {/* Stats compactos */}
+        <div className="mt-8 grid grid-cols-1 gap-4 border-y border-bone/10 py-6">
+          <Stat icon={Maximize2} label="Superficie" value={metros} />
+          <Stat icon={Trees} label="Aire libre" value={aire} />
+          <Stat icon={Users} label="Capacidad" value={capacidad} />
+        </div>
+
+        {/* Bullets */}
+        <ul className="mt-6 space-y-2.5">
+          {bullets.map((b) => (
+            <li key={b} className="flex gap-3 text-sm text-bone/85">
+              <span className="mt-2 h-px w-5 flex-none bg-magenta" />
+              {b}
+            </li>
+          ))}
+        </ul>
+
+        {/* Grid de fotos secundarias (todas las que haya) */}
+        <div className="mt-8 grid grid-cols-2 gap-3">
+          {gallery.slice(1).map((src, i) => (
+            <div key={src} className="aspect-square overflow-hidden rounded-2xl ring-1 ring-bone/10">
+              <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <a
+          href="#contacto"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-magenta px-7 py-4 text-sm font-medium text-bone shadow-glow-magenta active:scale-95"
+        >
+          Reservar {nombre}
+          <ArrowUpRight className="h-4 w-4" />
+        </a>
+      </div>
+
+      {/* — Desktop: sticky scroll-driven expansion (oculto en mobile) */}
+      <div className="hidden md:block sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* Background neutro detrás del clip */}
         <div className="absolute inset-0 bg-night" />
         <div className="absolute inset-0 bg-fiesta-mesh opacity-25" />

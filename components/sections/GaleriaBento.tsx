@@ -60,9 +60,11 @@ const ROW3: Photo[] = [
 ];
 
 const RATIO_CLASS: Record<Photo["ratio"], string> = {
-  tall: "h-[260px] w-[180px] md:h-[320px] md:w-[220px]",
-  wide: "h-[260px] w-[380px] md:h-[320px] md:w-[480px]",
-  square: "h-[260px] w-[260px] md:h-[320px] md:w-[320px]",
+  // Tiles más chicos en mobile (180/240/180) para que entren bien en pantalla
+  // y bajen el costo de pintar. Desktop mantiene el tamaño original.
+  tall: "h-[200px] w-[140px] md:h-[320px] md:w-[220px]",
+  wide: "h-[200px] w-[260px] md:h-[320px] md:w-[480px]",
+  square: "h-[200px] w-[200px] md:h-[320px] md:w-[320px]",
 };
 
 export function GaleriaBento() {
@@ -111,9 +113,9 @@ export function GaleriaBento() {
           WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%)",
         }}
       >
-        <Row photos={ROW1} duration={50} direction={1} onZoom={setZoom} />
-        <Row photos={ROW2} duration={62} direction={-1} onZoom={setZoom} />
-        <Row photos={ROW3} duration={56} direction={1} onZoom={setZoom} />
+        <Row photos={ROW1} duration={70} direction={1} onZoom={setZoom} />
+        <Row photos={ROW2} duration={85} direction={-1} onZoom={setZoom} />
+        <Row photos={ROW3} duration={78} direction={1} onZoom={setZoom} />
       </div>
 
       {/* Lightbox */}
