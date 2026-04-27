@@ -11,7 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { letterVariants, easeOrganic, easeCrisp } from "@/lib/motion";
 import { HERO_IMAGES, BRAND, CONTACT } from "@/lib/content";
-import { ArrowUpRight, Play } from "lucide-react";
+import { Play } from "lucide-react";
 
 /**
  * CinematicHero — landing hero "21st.dev cinematic" adaptado a Casa Pérez.
@@ -179,14 +179,6 @@ export function CinematicHero() {
             que se recuerdan. Cumpleaños, bodas, infantiles, corporativos.
           </p>
           <div className="md:col-span-7 flex flex-wrap items-center gap-3 md:justify-end">
-            <a
-              href="#contacto"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-magenta px-7 py-4 text-sm font-medium text-bone shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
-            >
-              <span className="relative z-10">Pedir presupuesto</span>
-              <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-450 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              <span aria-hidden className="absolute inset-0 -z-0 bg-gradient-to-r from-magenta via-violet to-magenta opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </a>
             <a
               href="#videos"
               className="group inline-flex items-center gap-3 rounded-full border border-bone/20 bg-bone/5 px-5 py-3 text-sm tracking-wide text-bone backdrop-blur transition-all hover:border-lime/60 hover:text-lime"
