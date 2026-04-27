@@ -40,7 +40,7 @@ export function Testimonios() {
               <span className="block h-px w-6 bg-violet" />
               Lo que cuentan
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Las familias vuelven. <br />
               <span className="font-editorial italic text-fiesta">Eso ya dice todo.</span>
             </h2>

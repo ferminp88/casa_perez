@@ -151,7 +151,7 @@ export function CinematicHero() {
         </motion.div>
 
         {/* Título cinematic */}
-        <h1 className="font-display text-balance text-[clamp(2.75rem,9.5vw,9.5rem)] font-medium leading-[0.92] tracking-tightest text-bone">
+        <h1 className="font-display text-balance text-[clamp(2.75rem,9.5vw,9.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
           <span className="block">
             {TITLE_PRE.map((w, i) => (
               <Letter key={`pre-${i}`} i={i}>{w}</Letter>
@@ -253,8 +253,12 @@ export function CinematicHero() {
 }
 
 function Letter({ children, i }: { children: React.ReactNode; i: number }) {
+  // pb/pt dan aire vertical para acentos (á) y descenders sin que el
+  // overflow-hidden de la animación los corte. pr + -mr compensa el ancho
+  // del wrapper para que los puntos finales no queden recortados con
+  // tracking negativo, sin alterar el spacing entre palabras.
   return (
-    <span className="mr-[0.18em] inline-block overflow-hidden align-bottom">
+    <span className="mr-[0.16em] -mb-[0.18em] inline-block overflow-hidden pb-[0.18em] pt-[0.05em] pr-[0.06em] -mr-[0.04em] align-bottom leading-none">
       <motion.span
         custom={i}
         variants={letterVariants}

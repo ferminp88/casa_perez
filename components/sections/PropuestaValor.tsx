@@ -46,7 +46,7 @@ export function PropuestaValor() {
               <span className="block h-px w-6 bg-lime" />
               Nuestra forma
             </p>
-            <h2 className="font-display text-balance text-[clamp(2.25rem,5.5vw,5rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2.25rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Cada evento es{" "}
               <span className="font-editorial italic text-fiesta">único e irrepetible.</span>
             </h2>
@@ -92,7 +92,7 @@ export function PropuestaValor() {
                   </div>
 
                   {/* Título display */}
-                  <h3 className="relative mt-6 font-display text-3xl font-medium leading-[0.95] tracking-tightest text-bone lg:text-4xl">
+                  <h3 className="relative mt-6 font-display text-3xl font-medium leading-[1.02] tracking-[-0.025em] text-bone lg:text-4xl">
                     {p.titulo}
                   </h3>
 

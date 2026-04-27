@@ -79,7 +79,7 @@ export function GaleriaBento() {
               <span className="block h-px w-6 bg-lime" />
               Pequeñas escenas
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               De cada festejo, <br />
               <span className="font-editorial italic text-lime-glow">un recuerdo nuevo.</span>
             </h2>

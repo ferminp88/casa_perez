@@ -45,7 +45,7 @@ export function Videos() {
               <span className="block h-px w-6 bg-magenta" />
               En movimiento
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Las fiestas de la casa, <br />
               <span className="font-editorial italic text-magenta-glow">filmadas como pasan.</span>
             </h2>

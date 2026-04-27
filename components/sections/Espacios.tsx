@@ -35,10 +35,10 @@ export function Espacios() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[0.95] tracking-tightest text-bone"
+                className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone"
               >
                 {"Salones independientes que".split(" ").map((w, i) => (
-                  <span key={i} className="mr-[0.18em] inline-block overflow-hidden align-bottom">
+                  <span key={i} className="mr-[0.16em] -mb-[0.18em] inline-block overflow-hidden pb-[0.18em] pt-[0.05em] pr-[0.06em] -mr-[0.04em] align-bottom leading-none">
                     <motion.span
                       custom={i}
                       variants={letterVariants}
@@ -110,7 +110,7 @@ export function Espacios() {
               </p>
             </Reveal.Item>
             <Reveal.Item>
-              <h3 className="font-display text-balance text-[clamp(2.25rem,5vw,4.5rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+              <h3 className="font-display text-balance text-[clamp(2.25rem,5vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
                 Lo que ves cuando llegás. <br />
                 <span className="font-editorial italic text-magenta-glow">
                   Lo que pasa cuando arranca.

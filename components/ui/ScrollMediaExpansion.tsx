@@ -78,7 +78,6 @@ export function ScrollMediaExpansion({
   const float3Y = useTransform(scrollYProgress, [0.5, 0.7], ["50vh", "0vh"]);
   const float4X = useTransform(scrollYProgress, [0.55, 0.75], ["-50vw", "0vw"]);
   const float5X = useTransform(scrollYProgress, [0.6, 0.8], ["50vw", "0vw"]);
-  const float6Y = useTransform(scrollYProgress, [0.65, 0.85], ["-40vh", "0vh"]);
   const floatsOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
 
   return (
@@ -156,7 +155,7 @@ export function ScrollMediaExpansion({
         >
           <motion.h3
             style={{ color: titleColor }}
-            className="text-balance text-center font-display text-[clamp(2.5rem,9vw,8rem)] font-medium leading-[0.92] tracking-tightest mix-blend-difference"
+            className="text-balance text-center font-display text-[clamp(2.5rem,9vw,8rem)] font-medium leading-[1.02] tracking-[-0.025em] mix-blend-difference"
           >
             {nombre.split(" ").map((w, i) => (
               <span key={i} className="mr-[0.18em] inline-block">
@@ -191,7 +190,7 @@ export function ScrollMediaExpansion({
         </motion.div>
         <motion.div
           style={{ y: float3Y, opacity: floatsOpacity }}
-          className="pointer-events-none absolute left-1/2 top-[26%] z-20 hidden -translate-x-1/2 lg:block"
+          className="pointer-events-none absolute left-1/2 top-[34%] z-20 hidden -translate-x-1/2 lg:block"
         >
           <div className="relative h-[36vh] w-[24vw] max-h-[340px] min-h-[220px] max-w-[420px] min-w-[260px] overflow-hidden rounded-3xl ring-1 ring-magenta/40 shadow-deep">
             <img src={gallery[3]} alt="" className="h-full w-full object-cover" loading="lazy" />
@@ -223,17 +222,6 @@ export function ScrollMediaExpansion({
           </motion.div>
         )}
 
-        {/* Float 6: arriba al centro, viene desde arriba */}
-        {gallery[6] && (
-          <motion.div
-            style={{ y: float6Y, opacity: floatsOpacity }}
-            className="pointer-events-none absolute left-[35%] top-[6%] z-20 hidden xl:block"
-          >
-            <div className="h-[22vh] w-[14vw] max-h-[220px] min-h-[150px] max-w-[230px] min-w-[130px] overflow-hidden rounded-2xl ring-1 ring-bone/20 shadow-deep -rotate-2">
-              <img src={gallery[6]} alt="" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-          </motion.div>
-        )}
 
         {/* Detalles que emergen sobre la imagen expandida — ahora más grandes */}
         <motion.div

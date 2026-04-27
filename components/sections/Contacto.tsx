@@ -17,7 +17,7 @@ export function Contacto() {
               <span className="block h-px w-6 bg-lime" />
               Reservar
             </p>
-            <h2 className="font-display text-balance text-[clamp(2.25rem,5.5vw,5rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2.25rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Contanos cómo <br />
               <span className="font-editorial italic text-fiesta">te imaginás la fiesta.</span>
             </h2>

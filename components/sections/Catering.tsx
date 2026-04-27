@@ -44,7 +44,7 @@ export function Catering() {
               <span className="block h-px w-6 bg-magenta" />
               Cocina propia · 100 m²
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+            <h2 className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Catering pensado <br />
               <span className="font-editorial italic text-fiesta">de principio a fin.</span>
             </h2>
@@ -124,7 +124,7 @@ export function Catering() {
                 <span className="block h-px w-6 bg-lime" />
                 Para acompañar
               </p>
-              <h3 className="font-display text-balance text-[clamp(1.75rem,4.5vw,3.75rem)] font-medium leading-[0.95] tracking-tightest text-bone">
+              <h3 className="font-display text-balance text-[clamp(1.75rem,4.5vw,3.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
                 Barra libre, <br />
                 <span className="font-editorial italic text-lime-glow">a tu medida.</span>
               </h3>
