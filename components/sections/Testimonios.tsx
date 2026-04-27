@@ -29,7 +29,7 @@ export function Testimonios() {
   const directions = [1, -1, 1] as const; // 1 = sube, -1 = baja
 
   return (
-    <section id="testimonios" className="relative bg-night py-32 md:py-44 overflow-hidden">
+    <section id="testimonios" className="relative bg-night py-16 md:py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-violet-glow opacity-50" />
       <div className="absolute inset-0 bg-dot-grid opacity-30" />
 

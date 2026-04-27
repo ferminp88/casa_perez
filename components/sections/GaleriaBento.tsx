@@ -1,29 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import { useRef, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { easeOrganic } from "@/lib/motion";
-import { X } from "lucide-react";
 
-/**
- * Galería — "Wall of Memories": 3 filas de marquee horizontal infinito,
- * fotos en aspect ratios y tamaños orgánicos (no grilla rígida), direcciones
- * alternas. Click en una foto abre lightbox con backdrop-blur.
- *
- * Por qué este patrón en vez de bento:
- *  - Salón de fiestas = archivo vivo de festejos, no portfolio curado
- *  - El movimiento permanente atrae la vista (segunda mitad de la web,
- *    necesita un punto de energía visual antes de Servicios)
- *  - Clic-zoom da control (UX) sin romper el flujo continuo
- *  - Reutiliza /gallery + /catering + /espacios sin orden estricto
- *
- * Mask vertical + horizontal hace que las filas "respiren" sin bordes duros.
- * Pause-on-hover de la fila apuntada (touch friendly: tap = pause toggle).
- */
-
-// Mezclamos fuentes (gallery + catering + espacios + nuevos salones) para
-// que el muro tenga variedad real. Aspect ratios variados a propósito.
 type Photo = { src: string; ratio: "tall" | "wide" | "square" };
 
 const ROW1: Photo[] = [
@@ -60,22 +40,18 @@ const ROW3: Photo[] = [
 ];
 
 const RATIO_CLASS: Record<Photo["ratio"], string> = {
-  // Tiles más chicos en mobile (180/240/180) para que entren bien en pantalla
-  // y bajen el costo de pintar. Desktop mantiene el tamaño original.
   tall: "h-[200px] w-[140px] md:h-[320px] md:w-[220px]",
   wide: "h-[200px] w-[260px] md:h-[320px] md:w-[480px]",
   square: "h-[200px] w-[200px] md:h-[320px] md:w-[320px]",
 };
 
 export function GaleriaBento() {
-  const [zoom, setZoom] = useState<string | null>(null);
-
   return (
-    <section id="galeria" className="relative bg-night py-32 md:py-44 overflow-hidden">
+    <section id="galeria" className="relative bg-night py-16 md:py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-fiesta-mesh opacity-25" />
 
       <div className="container-x relative">
-        <Reveal className="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+        <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <Reveal.Item>
             <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">
               <span className="block h-px w-6 bg-lime" />
@@ -88,24 +64,22 @@ export function GaleriaBento() {
           </Reveal.Item>
           <Reveal.Item>
             <a
-              href="#videos"
-              className="group inline-flex items-center gap-2 rounded-full border border-bone/15 bg-bone/5 px-5 py-3 text-sm tracking-wide text-bone backdrop-blur transition-all hover:border-magenta/60 hover:bg-magenta/10"
+              href="#contacto"
+              className="group inline-flex items-center gap-2 rounded-full bg-magenta px-6 py-3 text-sm font-medium tracking-wide text-bone shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
             >
-              Ver fiestas en video
+              Pedir un presupuesto
               <span className="transition-transform group-hover:translate-x-1">→</span>
             </a>
           </Reveal.Item>
         </Reveal>
 
-        {/* Counter sutil */}
-        <Reveal className="mb-10 font-mono text-[11px] uppercase tracking-[0.3em] text-bone/40">
+        <Reveal className="mb-8 font-mono text-[11px] uppercase tracking-[0.3em] text-bone/40">
           <Reveal.Item>
-            ✦ archivo vivo · 400+ festejos · click una foto para verla en grande
+            ✦ archivo vivo · 400+ festejos · agarrá una fila y deslizá a los costados
           </Reveal.Item>
         </Reveal>
       </div>
 
-      {/* Wall of memories: 3 filas con mask */}
       <div
         className="relative space-y-4 overflow-hidden md:space-y-6"
         style={{
@@ -113,90 +87,91 @@ export function GaleriaBento() {
           WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%)",
         }}
       >
-        <Row photos={ROW1} duration={70} direction={1} onZoom={setZoom} />
-        <Row photos={ROW2} duration={85} direction={-1} onZoom={setZoom} />
-        <Row photos={ROW3} duration={78} direction={1} onZoom={setZoom} />
+        <Row photos={ROW1} duration={70} direction={1} />
+        <Row photos={ROW2} duration={85} direction={-1} />
+        <Row photos={ROW3} duration={78} direction={1} />
       </div>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {zoom && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[70] grid place-items-center bg-night/95 p-4 backdrop-blur-md md:p-8"
-            onClick={() => setZoom(null)}
-          >
-            <motion.img
-              src={zoom}
-              alt=""
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.97, opacity: 0 }}
-              transition={{ duration: 0.4, ease: easeOrganic }}
-              onClick={(e) => e.stopPropagation()}
-              className="max-h-full max-w-full rounded-2xl ring-1 ring-bone/15 shadow-deep"
-            />
-            <button
-              aria-label="Cerrar"
-              onClick={() => setZoom(null)}
-              className="absolute right-6 top-6 grid h-10 w-10 place-items-center rounded-full bg-bone/10 text-bone backdrop-blur transition-colors hover:bg-magenta hover:text-night"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
 
+/**
+ * Row — auto-marquee infinito + drag horizontal manual.
+ * No abre lightbox al soltar: las fotos no son clickeables.
+ */
 function Row({
   photos,
   duration,
   direction,
-  onZoom,
 }: {
   photos: Photo[];
   duration: number;
   direction: 1 | -1;
-  onZoom: (src: string) => void;
 }) {
-  const [paused, setPaused] = useState(false);
-  // Duplicamos para loop sin salto
+  const [hovered, setHovered] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const x = useMotionValue(0);
+  const innerRef = useRef<HTMLDivElement>(null);
   const doubled = [...photos, ...photos];
+
+  useAnimationFrame((_, delta) => {
+    if (hovered || dragging) return;
+    const el = innerRef.current;
+    if (!el) return;
+    const halfWidth = el.scrollWidth / 2;
+    if (!halfWidth) return;
+    const pps = halfWidth / duration;
+    const dx = -direction * pps * (delta / 1000);
+    let next = x.get() + dx;
+    if (next <= -halfWidth) next += halfWidth;
+    if (next >= 0) next -= halfWidth;
+    x.set(next);
+  });
+
+  const wrap = () => {
+    const el = innerRef.current;
+    if (!el) return;
+    const halfWidth = el.scrollWidth / 2;
+    if (!halfWidth) return;
+    let v = x.get();
+    while (v <= -halfWidth) v += halfWidth;
+    while (v >= 0) v -= halfWidth;
+    x.set(v);
+  };
 
   return (
     <div
       className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <motion.div
-        animate={paused ? {} : { x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-        transition={{ duration, repeat: Infinity, ease: "linear" }}
-        className="flex gap-4 will-change-transform md:gap-6"
+        ref={innerRef}
+        style={{ x, touchAction: "pan-y" }}
+        drag="x"
+        dragMomentum
+        dragElastic={0.05}
+        onDragStart={() => setDragging(true)}
+        onDragEnd={() => {
+          setTimeout(() => { wrap(); setDragging(false); }, 350);
+        }}
+        className="flex cursor-grab gap-4 will-change-transform active:cursor-grabbing md:gap-6"
       >
         {doubled.map((p, i) => (
-          <button
+          <div
             key={i}
-            onClick={() => onZoom(p.src)}
-            className={`group relative flex-none overflow-hidden rounded-2xl ring-1 ring-bone/8 transition-all hover:ring-magenta/50 ${RATIO_CLASS[p.ratio]}`}
+            className={`relative flex-none overflow-hidden rounded-2xl ring-1 ring-bone/8 ${RATIO_CLASS[p.ratio]}`}
             style={{ transform: `rotate(${(i % 5) - 2}deg)` }}
+            aria-hidden
           >
             <img
               src={p.src}
               alt=""
               loading="lazy"
               draggable={false}
-              className="h-full w-full object-cover saturate-90 transition-all duration-700 group-hover:scale-[1.06] group-hover:saturate-110"
+              className="pointer-events-none h-full w-full object-cover saturate-90"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            {/* Magenta glow ring on hover */}
-            <span className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "0 0 0 2px rgba(255,46,110,0.5), 0 24px 60px -12px rgba(255,46,110,0.4)" }} />
-          </button>
+          </div>
         ))}
       </motion.div>
     </div>

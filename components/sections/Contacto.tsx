@@ -6,7 +6,7 @@ import { MapPin, Phone, Mail, Clock, Instagram, Facebook, ArrowUpRight } from "l
 
 export function Contacto() {
   return (
-    <section id="contacto" className="relative bg-obsidian py-32 md:py-44 overflow-hidden">
+    <section id="contacto" className="relative bg-obsidian py-16 md:py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-fiesta-mesh opacity-40" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 

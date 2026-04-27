@@ -36,7 +36,7 @@ export function Videos() {
   }, []);
 
   return (
-    <section id="videos" className="relative bg-night py-32 md:py-44 overflow-hidden">
+    <section id="videos" className="relative bg-night py-16 md:py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">

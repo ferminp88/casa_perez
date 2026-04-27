@@ -34,7 +34,7 @@ export function CinematicHero() {
 
   // Auto-rotate cada 6s (más lento que el hero anterior; lectura cinematográfica)
   useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % HERO_IMAGES.length), 6000);
+    const id = setInterval(() => setIdx((i) => (i + 1) % HERO_IMAGES.length), 2800);
     return () => clearInterval(id);
   }, []);
 
@@ -109,26 +109,6 @@ export function CinematicHero() {
         className="absolute inset-x-0 bottom-0 z-20 h-12 origin-bottom bg-night md:h-16"
       />
 
-      {/* Frame meta lateral (timecode tipo cine) */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="pointer-events-none absolute left-6 top-20 z-30 hidden font-mono text-[10px] uppercase tracking-[0.25em] text-bone/55 md:block md:left-10 md:top-24"
-      >
-        <p>● rec · {String(idx + 1).padStart(2, "0")}</p>
-        <p className="mt-1">scene / {BRAND.city}</p>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="pointer-events-none absolute right-6 top-20 z-30 hidden text-right font-mono text-[10px] uppercase tracking-[0.25em] text-bone/55 md:block md:right-10 md:top-24"
-      >
-        <p>aspect · 21:9</p>
-        <p className="mt-1">f / 1.4 · iso 800</p>
-      </motion.div>
-
       {/* Header content */}
       <motion.div
         style={{ y: titleY, opacity: fade }}
@@ -180,13 +160,11 @@ export function CinematicHero() {
           </p>
           <div className="md:col-span-7 flex flex-wrap items-center gap-3 md:justify-end">
             <a
-              href="#videos"
-              className="group inline-flex items-center gap-3 rounded-full border border-bone/20 bg-bone/5 px-5 py-3 text-sm tracking-wide text-bone backdrop-blur transition-all hover:border-lime/60 hover:text-lime"
+              href="#contacto"
+              className="group inline-flex items-center gap-3 rounded-full bg-magenta px-6 py-3 text-sm font-medium tracking-wide text-bone shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
             >
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-bone/15 transition-colors group-hover:bg-lime group-hover:text-night">
-                <Play className="h-3 w-3 translate-x-[1px] fill-current" strokeWidth={0} />
-              </span>
-              Ver fiestas en video
+              Pedir un presupuesto
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
             </a>
             <a
               href={CONTACT.whatsapp}
@@ -199,44 +177,6 @@ export function CinematicHero() {
           </div>
         </motion.div>
 
-        {/* Strip thumbs cinematográfico */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="mt-12 flex items-end gap-4"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/40">
-            {String(idx + 1).padStart(2, "0")} / {String(HERO_IMAGES.length).padStart(2, "0")}
-          </span>
-          <div className="flex flex-1 items-end gap-1.5">
-            {HERO_IMAGES.map((src, i) => (
-              <button
-                key={i}
-                onClick={() => setIdx(i)}
-                aria-label={`Slide ${i + 1}`}
-                className={`group relative flex-1 overflow-hidden rounded-sm bg-bone/10 transition-all ${
-                  i === idx ? "h-12 ring-1 ring-magenta" : "h-1.5 hover:h-3"
-                }`}
-              >
-                {i === idx ? (
-                  <>
-                    <img src={src} alt="" className="h-full w-full object-cover opacity-70" />
-                    <motion.span
-                      key={`p-${idx}`}
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 6, ease: "linear" }}
-                      className="absolute inset-x-0 bottom-0 h-px bg-magenta"
-                    />
-                  </>
-                ) : (
-                  <span className="block h-full w-full" />
-                )}
-              </button>
-            ))}
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Scroll hint */}

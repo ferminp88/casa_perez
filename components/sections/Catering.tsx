@@ -32,7 +32,7 @@ export function Catering() {
   const data = CATERING_OPCIONES.find((o) => o.id === active)!;
 
   return (
-    <section id="catering" className="relative bg-night py-32 md:py-44 overflow-hidden">
+    <section id="catering" className="relative bg-night py-16 md:py-24 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 

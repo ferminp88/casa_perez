@@ -20,10 +20,10 @@ export default function HomePage() {
     <main className="relative">
       <Nav />
       <CinematicHero />
-      <PropuestaValor />
       <Espacios />
-      <GaleriaBento />
       <Videos />
+      <GaleriaBento />
+      <PropuestaValor />
       <Servicios />
       <Catering />
       <Testimonios />

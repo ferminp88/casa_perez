@@ -12,7 +12,7 @@ export function Servicios() {
   const data = SERVICIOS.find((s) => s.id === active)!;
 
   return (
-    <section id="servicios" className="relative overflow-hidden bg-obsidian py-32 md:py-44">
+    <section id="servicios" className="relative overflow-hidden bg-obsidian py-16 md:py-24">
       <div className="pointer-events-none absolute inset-0 bg-violet-glow opacity-50" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 

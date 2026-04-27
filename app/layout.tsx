@@ -3,7 +3,6 @@ import { Bricolage_Grotesque, Geist, Geist_Mono, Instrument_Serif } from "next/f
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/SmoothScrollProvider";
 import { WhatsappFab } from "@/components/ui/WhatsappFab";
-import { TubeCursor } from "@/components/ui/TubeCursor";
 
 // Display variable (axes wdth/opsz). Reemplaza Fraunces — más moderna, joven, con personalidad.
 const bricolage = Bricolage_Grotesque({
@@ -56,7 +55,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
         <WhatsappFab />
-        <TubeCursor />
       </body>
     </html>
   );
