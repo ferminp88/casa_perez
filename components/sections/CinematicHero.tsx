@@ -1,0 +1,277 @@
+"use client";
+
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { letterVariants, easeOrganic, easeCrisp } from "@/lib/motion";
+import { HERO_IMAGES, BRAND, CONTACT } from "@/lib/content";
+import { ArrowUpRight, Play } from "lucide-react";
+
+/**
+ * CinematicHero — landing hero "21st.dev cinematic" adaptado a Casa Pérez.
+ *
+ * Capas (de fondo a frente):
+ *  1. Imagen full-bleed con ken-burns slow + crossfade entre las 9 fotos
+ *  2. Vignette radial (oscurece bordes, foco al centro/abajo)
+ *  3. Tilt parallax con mouse (5° max) sobre toda la capa de imagen
+ *  4. Mesh gradient + grain
+ *  5. Letterbox bands (top + bottom) para look cine
+ *  6. Título overlay con letras animadas y "Festejá" en italic editorial
+ *  7. Strip inferior de meta + thumbs + play CTA
+ */
+const TITLE_PRE = ["Olvidate", "de", "todo."];
+const TITLE_POST = ["lo", "que", "quieras."];
+
+export function CinematicHero() {
+  const ref = useRef<HTMLElement | null>(null);
+  const [idx, setIdx] = useState(0);
+
+  // Auto-rotate cada 6s (más lento que el hero anterior; lectura cinematográfica)
+  useEffect(() => {
+    const id = setInterval(() => setIdx((i) => (i + 1) % HERO_IMAGES.length), 6000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Scroll parallax: la imagen se desplaza, el título se desplaza menos
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+  const fade = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+
+  // Mouse parallax tilt: la imagen se inclina sutil siguiendo el cursor
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const tiltX = useSpring(useTransform(my, [-0.5, 0.5], [3, -3]), { stiffness: 80, damping: 20 });
+  const tiltY = useSpring(useTransform(mx, [-0.5, 0.5], [-3, 3]), { stiffness: 80, damping: 20 });
+  const tx = useSpring(useTransform(mx, [-0.5, 0.5], ["-2%", "2%"]), { stiffness: 80, damping: 20 });
+  const ty = useSpring(useTransform(my, [-0.5, 0.5], ["-2%", "2%"]), { stiffness: 80, damping: 20 });
+
+  return (
+    <section
+      ref={ref}
+      onMouseMove={(e) => {
+        const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        mx.set((e.clientX - r.left) / r.width - 0.5);
+        my.set((e.clientY - r.top) / r.height - 0.5);
+      }}
+      onMouseLeave={() => { mx.set(0); my.set(0); }}
+      className="relative min-h-[100svh] w-full overflow-hidden bg-night isolate"
+      style={{ perspective: 1400 }}
+    >
+      {/* Capa imagen + ken-burns + parallax + tilt */}
+      <motion.div
+        style={{ y: imgY, scale: imgScale, rotateX: tiltX, rotateY: tiltY, x: tx, transformStyle: "preserve-3d" }}
+        className="absolute inset-0"
+      >
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1.08 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 1.8, ease: easeOrganic },
+              scale: { duration: 8, ease: "linear" },
+            }}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${HERO_IMAGES[idx]})` }}
+          />
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Vignette + ink fade + grain */}
+      <div className="absolute inset-0 bg-gradient-to-b from-night/30 via-night/55 to-night" />
+      <div
+        className="absolute inset-0"
+        style={{ background: "radial-gradient(120% 80% at 50% 50%, transparent 30%, rgba(10,10,15,0.85) 100%)" }}
+      />
+      <div className="absolute inset-0 bg-fiesta-mesh opacity-30 mix-blend-screen" />
+      <div className="absolute inset-0 bg-grain opacity-30 mix-blend-overlay" />
+
+      {/* Letterbox bands cine */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
+        className="absolute inset-x-0 top-0 z-20 h-12 origin-top bg-night md:h-16"
+      />
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
+        className="absolute inset-x-0 bottom-0 z-20 h-12 origin-bottom bg-night md:h-16"
+      />
+
+      {/* Frame meta lateral (timecode tipo cine) */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="pointer-events-none absolute left-6 top-20 z-30 hidden font-mono text-[10px] uppercase tracking-[0.25em] text-bone/55 md:block md:left-10 md:top-24"
+      >
+        <p>● rec · {String(idx + 1).padStart(2, "0")}</p>
+        <p className="mt-1">scene / {BRAND.city}</p>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="pointer-events-none absolute right-6 top-20 z-30 hidden text-right font-mono text-[10px] uppercase tracking-[0.25em] text-bone/55 md:block md:right-10 md:top-24"
+      >
+        <p>aspect · 21:9</p>
+        <p className="mt-1">f / 1.4 · iso 800</p>
+      </motion.div>
+
+      {/* Header content */}
+      <motion.div
+        style={{ y: titleY, opacity: fade }}
+        className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-24 pt-32 md:pb-32"
+      >
+        {/* Badge live */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: easeCrisp, delay: 0.4 }}
+          className="mb-8 inline-flex w-fit items-center gap-3 rounded-full border border-bone/15 bg-bone/5 px-4 py-1.5 backdrop-blur"
+        >
+          <span className="relative grid place-items-center">
+            <span className="block h-1.5 w-1.5 rounded-full bg-lime" />
+            <span className="absolute inset-0 animate-pulse-ring rounded-full bg-lime/60" />
+          </span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-bone/80">
+            Reservas abiertas · Temporada 2026
+          </span>
+        </motion.div>
+
+        {/* Título cinematic */}
+        <h1 className="font-display text-balance text-[clamp(2.75rem,9.5vw,9.5rem)] font-medium leading-[0.92] tracking-tightest text-bone">
+          <span className="block">
+            {TITLE_PRE.map((w, i) => (
+              <Letter key={`pre-${i}`} i={i}>{w}</Letter>
+            ))}
+          </span>
+          <span className="block">
+            <Letter i={3}>
+              <span className="font-editorial italic text-magenta-glow">Festejá</span>
+            </Letter>
+            {TITLE_POST.map((w, i) => (
+              <Letter key={`post-${i}`} i={4 + i}>{w}</Letter>
+            ))}
+          </span>
+        </h1>
+
+        {/* Sub + CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: easeOrganic, delay: 1.4 }}
+          className="mt-12 grid gap-10 md:grid-cols-12 md:items-end"
+        >
+          <p className="md:col-span-5 max-w-md text-pretty text-base text-bone/75 md:text-lg">
+            Tres salones, equipo propio y veintipico de años organizando los festejos
+            que se recuerdan. Cumpleaños, bodas, infantiles, corporativos.
+          </p>
+          <div className="md:col-span-7 flex flex-wrap items-center gap-3 md:justify-end">
+            <a
+              href="#contacto"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-magenta px-7 py-4 text-sm font-medium text-bone shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            >
+              <span className="relative z-10">Pedir presupuesto</span>
+              <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-450 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span aria-hidden className="absolute inset-0 -z-0 bg-gradient-to-r from-magenta via-violet to-magenta opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </a>
+            <a
+              href="#videos"
+              className="group inline-flex items-center gap-3 rounded-full border border-bone/20 bg-bone/5 px-5 py-3 text-sm tracking-wide text-bone backdrop-blur transition-all hover:border-lime/60 hover:text-lime"
+            >
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-bone/15 transition-colors group-hover:bg-lime group-hover:text-night">
+                <Play className="h-3 w-3 translate-x-[1px] fill-current" strokeWidth={0} />
+              </span>
+              Ver fiestas en video
+            </a>
+            <a
+              href={CONTACT.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm tracking-wide text-bone/60 underline-offset-4 transition-colors hover:text-bone hover:underline"
+            >
+              o WhatsApp directo
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Strip thumbs cinematográfico */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
+          className="mt-12 flex items-end gap-4"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/40">
+            {String(idx + 1).padStart(2, "0")} / {String(HERO_IMAGES.length).padStart(2, "0")}
+          </span>
+          <div className="flex flex-1 items-end gap-1.5">
+            {HERO_IMAGES.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                aria-label={`Slide ${i + 1}`}
+                className={`group relative flex-1 overflow-hidden rounded-sm bg-bone/10 transition-all ${
+                  i === idx ? "h-12 ring-1 ring-magenta" : "h-1.5 hover:h-3"
+                }`}
+              >
+                {i === idx ? (
+                  <>
+                    <img src={src} alt="" className="h-full w-full object-cover opacity-70" />
+                    <motion.span
+                      key={`p-${idx}`}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 6, ease: "linear" }}
+                      className="absolute inset-x-0 bottom-0 h-px bg-magenta"
+                    />
+                  </>
+                ) : (
+                  <span className="block h-full w-full" />
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 0.8 }}
+        className="absolute bottom-20 left-1/2 z-30 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.4em] text-bone/45 md:bottom-24"
+      >
+        ↓ scroll
+      </motion.div>
+    </section>
+  );
+}
+
+function Letter({ children, i }: { children: React.ReactNode; i: number }) {
+  return (
+    <span className="mr-[0.18em] inline-block overflow-hidden align-bottom">
+      <motion.span
+        custom={i}
+        variants={letterVariants}
+        initial="hidden"
+        animate="visible"
+        className="inline-block"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
