@@ -5,7 +5,7 @@ import { MarqueeStripBrand } from "@/components/sections/MarqueeStrip";
 import { Espacios } from "@/components/sections/Espacios";
 import { GaleriaBento } from "@/components/sections/GaleriaBento";
 import { Servicios } from "@/components/sections/Servicios";
-import { Catering } from "@/components/sections/Catering";
+import { CateringPreview } from "@/components/sections/CateringPreview";
 import { Videos } from "@/components/sections/Videos";
 import { Testimonios } from "@/components/sections/Testimonios";
 import { Contacto } from "@/components/sections/Contacto";
@@ -25,7 +25,7 @@ export default function HomePage() {
       <GaleriaBento />
       <PropuestaValor />
       <Servicios />
-      <Catering />
+      <CateringPreview />
       <Testimonios />
       <MarqueeStripBrand />
       <Contacto />

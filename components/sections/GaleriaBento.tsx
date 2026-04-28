@@ -64,7 +64,7 @@ export function GaleriaBento() {
   }, [zoom]);
 
   return (
-    <section id="galeria" className="relative bg-night py-16 md:py-24 overflow-hidden">
+    <section id="galeria" className="relative bg-night py-12 md:py-16 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-fiesta-mesh opacity-25" />
 
       <div className="container-x relative">
@@ -74,7 +74,7 @@ export function GaleriaBento() {
               <span className="block h-px w-6 bg-lime" />
               Pequeñas escenas
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+            <h2 className="font-display text-balance text-[clamp(1.65rem,3.8vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               De cada festejo, <br />
               <span className="font-editorial italic text-lime-glow">un recuerdo nuevo.</span>
             </h2>

@@ -32,7 +32,7 @@ export function Catering() {
   const data = CATERING_OPCIONES.find((o) => o.id === active)!;
 
   return (
-    <section id="catering" className="relative bg-night py-16 md:py-24 overflow-hidden">
+    <section id="catering" className="relative bg-night py-12 md:py-16 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 
@@ -44,13 +44,13 @@ export function Catering() {
               <span className="block h-px w-6 bg-magenta" />
               Cocina propia · 100 m²
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+            <h2 className="font-display text-balance text-[clamp(1.65rem,4.2vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Catering pensado <br />
               <span className="font-editorial italic text-fiesta">de principio a fin.</span>
             </h2>
           </Reveal.Item>
           <Reveal.Item className="md:col-span-5">
-            <p className="text-pretty text-bone/65 md:text-lg">
+            <p className="text-pretty text-sm text-bone/65 md:text-base">
               Tres opciones armadas para cubrir distintos festejos. Bandejeo, islas,
               mesa dulce y barras — todo desde nuestra cocina, con el mismo equipo
               que arma cada evento.
@@ -59,14 +59,14 @@ export function Catering() {
         </Reveal>
 
         {/* Tabs */}
-        <div className="mt-14 flex flex-wrap gap-2">
+        <div className="mt-10 flex flex-wrap gap-2">
           {CATERING_OPCIONES.map((o) => {
             const isActive = o.id === active;
             return (
               <button
                 key={o.id}
                 onClick={() => setActive(o.id)}
-                className={`group relative inline-flex items-center gap-3 rounded-full border px-5 py-3 text-sm tracking-wide transition-all ${
+                className={`group relative inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13px] tracking-wide transition-all ${
                   isActive
                     ? "border-magenta/60 bg-magenta/10 text-bone shadow-glow-magenta"
                     : "border-bone/15 bg-bone/5 text-bone/70 hover:border-bone/30 hover:text-bone"
@@ -117,14 +117,14 @@ export function Catering() {
         </AnimatePresence>
 
         {/* Bloque 2: Barra libre */}
-        <div className="mt-32 md:mt-44">
+        <div className="mt-20 md:mt-28">
           <Reveal className="grid items-end gap-10 md:grid-cols-12">
             <Reveal.Item className="md:col-span-7">
               <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">
                 <span className="block h-px w-6 bg-lime" />
                 Para acompañar
               </p>
-              <h3 className="font-display text-balance text-[clamp(1.75rem,4.5vw,3.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+              <h3 className="font-display text-balance text-[clamp(1.45rem,3.4vw,2.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
                 Barra libre, <br />
                 <span className="font-editorial italic text-lime-glow">a tu medida.</span>
               </h3>

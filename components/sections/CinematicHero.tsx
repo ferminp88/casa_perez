@@ -100,26 +100,26 @@ export function CinematicHero() {
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
-        className="absolute inset-x-0 top-0 z-20 h-12 origin-top bg-night md:h-16"
+        className="absolute inset-x-0 top-0 z-20 h-9 origin-top bg-night md:h-12"
       />
       <motion.div
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
-        className="absolute inset-x-0 bottom-0 z-20 h-12 origin-bottom bg-night md:h-16"
+        className="absolute inset-x-0 bottom-0 z-20 h-9 origin-bottom bg-night md:h-12"
       />
 
       {/* Header content */}
       <motion.div
         style={{ y: titleY, opacity: fade }}
-        className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-24 pt-32 md:pb-32"
+        className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-16 pt-24 md:pb-20"
       >
         {/* Badge live */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: easeCrisp, delay: 0.4 }}
-          className="mb-8 inline-flex w-fit items-center gap-3 rounded-full border border-bone/15 bg-bone/5 px-4 py-1.5 backdrop-blur"
+          className="mb-6 inline-flex w-fit items-center gap-3 rounded-full border border-bone/15 bg-bone/5 px-3.5 py-1 backdrop-blur"
         >
           <span className="relative grid place-items-center">
             <span className="block h-1.5 w-1.5 rounded-full bg-lime" />
@@ -131,7 +131,7 @@ export function CinematicHero() {
         </motion.div>
 
         {/* Título cinematic */}
-        <h1 className="font-display text-balance text-[clamp(2.75rem,9.5vw,9.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+        <h1 className="font-display text-balance text-[clamp(2.25rem,7.5vw,7rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
           <span className="block">
             {TITLE_PRE.map((w, i) => (
               <Letter key={`pre-${i}`} i={i}>{w}</Letter>
@@ -152,16 +152,16 @@ export function CinematicHero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: easeOrganic, delay: 1.4 }}
-          className="mt-12 grid gap-10 md:grid-cols-12 md:items-end"
+          className="mt-8 grid gap-7 md:grid-cols-12 md:items-end"
         >
-          <p className="md:col-span-5 max-w-md text-pretty text-base text-bone/75 md:text-lg">
+          <p className="md:col-span-5 max-w-md text-pretty text-sm text-bone/75 md:text-base">
             Tres salones, equipo propio y veintipico de años organizando los festejos
             que se recuerdan. Cumpleaños, bodas, infantiles, corporativos.
           </p>
           <div className="md:col-span-7 flex flex-wrap items-center gap-3 md:justify-end">
             <a
               href="#contacto"
-              className="group inline-flex items-center gap-3 rounded-full bg-magenta px-6 py-3 text-sm font-medium tracking-wide text-bone shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-magenta px-5 py-2.5 text-[13px] font-medium tracking-wide text-night shadow-glow-magenta transition-transform hover:scale-[1.03] active:scale-[0.97]"
             >
               Pedir un presupuesto
               <span className="transition-transform group-hover:translate-x-0.5">→</span>

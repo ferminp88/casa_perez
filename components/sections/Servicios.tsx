@@ -12,18 +12,18 @@ export function Servicios() {
   const data = SERVICIOS.find((s) => s.id === active)!;
 
   return (
-    <section id="servicios" className="relative overflow-hidden bg-obsidian py-16 md:py-24">
+    <section id="servicios" className="relative overflow-hidden bg-obsidian py-12 md:py-16">
       <div className="pointer-events-none absolute inset-0 bg-violet-glow opacity-50" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 
       <div className="container-x relative">
-        <Reveal className="mb-16 grid gap-10 md:grid-cols-12">
+        <Reveal className="mb-12 grid gap-8 md:grid-cols-12">
           <Reveal.Item className="md:col-span-7">
             <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-violet-glow">
               <span className="block h-px w-6 bg-violet" />
               Servicio integral
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+            <h2 className="font-display text-balance text-[clamp(1.65rem,3.8vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               No hace falta sumar proveedores. <br />
               <span className="font-editorial italic text-fiesta">La fiesta entera, en una casa.</span>
             </h2>
@@ -45,7 +45,7 @@ export function Servicios() {
                   key={s.id}
                   onMouseEnter={() => setActive(s.id)}
                   onClick={() => setActive(s.id)}
-                  className="group relative cursor-pointer border-b border-bone/8 py-7 transition-colors"
+                  className="group relative cursor-pointer border-b border-bone/8 py-5 transition-colors"
                 >
                   {/* Indicador izquierdo: línea magenta que se traza */}
                   <motion.span
@@ -62,7 +62,7 @@ export function Servicios() {
                     </span>
                     <div className="col-span-10">
                       <h3
-                        className={`font-display text-2xl font-medium tracking-tight transition-colors md:text-4xl ${
+                        className={`font-display text-xl font-medium tracking-tight transition-colors md:text-3xl ${
                           isActive ? "text-bone" : "text-bone/45 group-hover:text-bone/80"
                         }`}
                       >

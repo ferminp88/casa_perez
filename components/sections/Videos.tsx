@@ -36,7 +36,7 @@ export function Videos() {
   }, []);
 
   return (
-    <section id="videos" className="relative bg-night py-16 md:py-24 overflow-hidden">
+    <section id="videos" className="relative bg-night py-12 md:py-16 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
@@ -45,7 +45,7 @@ export function Videos() {
               <span className="block h-px w-6 bg-magenta" />
               En movimiento
             </p>
-            <h2 className="font-display text-balance text-[clamp(2rem,5vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+            <h2 className="font-display text-balance text-[clamp(1.65rem,3.8vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
               Las fiestas de la casa, <br />
               <span className="font-editorial italic text-magenta-glow">filmadas como pasan.</span>
             </h2>

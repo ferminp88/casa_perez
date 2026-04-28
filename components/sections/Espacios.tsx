@@ -13,9 +13,9 @@ export function Espacios() {
   const activeIndex = ESPACIOS.findIndex((e) => e.id === activeId);
 
   return (
-    <section id="espacios" className="relative bg-paper">
+    <section id="espacios" data-nav-theme="light" className="relative bg-paper">
       {/* Header de la sección */}
-      <div className="relative overflow-hidden bg-paper pt-32 pb-16 md:pt-44 md:pb-20">
+      <div className="relative overflow-hidden bg-paper pt-24 pb-12 md:pt-32 md:pb-16">
         <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-30" />
         <div className="absolute inset-0 bg-dot-grid opacity-50" />
         <div className="container-x relative">
@@ -29,7 +29,7 @@ export function Espacios() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="font-display text-balance text-[clamp(2rem,5.5vw,5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-ink"
+                className="font-display text-balance text-[clamp(1.65rem,4.2vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-ink"
               >
                 {"Salones independientes que".split(" ").map((w, i) => (
                   <span key={i} className="mr-[0.16em] -mb-[0.18em] inline-block overflow-hidden pb-[0.18em] pt-[0.05em] pr-[0.06em] -mr-[0.04em] align-bottom leading-none">
@@ -51,7 +51,7 @@ export function Espacios() {
           </Reveal>
 
           {/* Tabs de salones */}
-          <Reveal className="mt-12 flex flex-wrap gap-2">
+          <Reveal className="mt-9 flex flex-wrap gap-2">
             {ESPACIOS.map((e, i) => {
               const isActive = e.id === activeId;
               return (
@@ -59,7 +59,7 @@ export function Espacios() {
                   <button
                     type="button"
                     onClick={() => setActiveId(e.id)}
-                    className={`group relative inline-flex items-center gap-3 rounded-full border px-5 py-3 text-sm tracking-wide transition-all ${
+                    className={`group relative inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13px] tracking-wide transition-all ${
                       isActive
                         ? "border-ink bg-ink text-paper shadow-soft"
                         : "border-ink/15 bg-ink/5 text-ink/75 hover:border-ink/40 hover:bg-ink/10 hover:text-ink"
@@ -82,7 +82,7 @@ export function Espacios() {
       </div>
 
       {/* Panel del salón activo */}
-      <div className="relative bg-paper pb-24 md:pb-32">
+      <div className="relative bg-paper pb-16 md:pb-20">
         <div className="container-x relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -98,77 +98,7 @@ export function Espacios() {
         </div>
       </div>
 
-      {/* Image Comparison: el salón / la fiesta */}
-      <div className="relative bg-paper py-16 md:py-24 overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-25" />
-        <div className="container-x relative">
-          <Reveal className="mx-auto mb-14 max-w-3xl text-center">
-            <Reveal.Item>
-              <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-mustard-deep">
-                <span className="block h-px w-6 bg-mustard-deep" />
-                El salón / la fiesta
-              </p>
-            </Reveal.Item>
-            <Reveal.Item>
-              <h3 className="font-display text-balance text-[clamp(2.25rem,5vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-ink">
-                Lo que ves cuando llegás. <br />
-                <span className="font-editorial italic text-magenta-glow">
-                  Lo que pasa cuando arranca.
-                </span>
-              </h3>
-            </Reveal.Item>
-            <Reveal.Item>
-              <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-ink/70 md:text-lg">
-                El mismo espacio, dos momentos. Los salones son tu lienzo;
-                la fiesta la ponés vos.
-              </p>
-            </Reveal.Item>
-          </Reveal>
-
-          <Reveal>
-            <Reveal.Item>
-              <div className="mx-auto grid max-w-[1200px] gap-4 md:grid-cols-2 md:gap-6">
-                <SidePanel
-                  src="/espacios/casa-new.png"
-                  label="El salón"
-                  caption="Listo, vacío, esperándote."
-                />
-                <SidePanel
-                  src="/gallery/80/big0000.jpg"
-                  label="La fiesta"
-                  caption="Lleno, sonando, recordable."
-                />
-              </div>
-            </Reveal.Item>
-          </Reveal>
-        </div>
-      </div>
     </section>
-  );
-}
-
-function SidePanel({ src, label, caption }: { src: string; label: string; caption: string }) {
-  return (
-    <figure className="group relative overflow-hidden rounded-3xl ring-1 ring-ink/10 shadow-soft">
-      <div className="relative aspect-[4/5] w-full overflow-hidden">
-        <img
-          src={src}
-          alt={label}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 ease-organic group-hover:scale-[1.04]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent" />
-      </div>
-      <figcaption className="absolute inset-x-6 bottom-6 text-paper">
-        <span className="inline-flex items-center gap-2 rounded-full border border-paper/30 bg-ink/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em] backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full bg-mustard" />
-          {label}
-        </span>
-        <p className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">
-          {caption}
-        </p>
-      </figcaption>
-    </figure>
   );
 }
 
@@ -192,7 +122,7 @@ function SalonPanel({ salon, index }: { salon: Salon; index: number }) {
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-mustard-deep">
             Salón · {String(index + 1).padStart(2, "0")} / {String(ESPACIOS.length).padStart(2, "0")}
           </p>
-          <h3 className="mt-3 font-display text-[clamp(1.75rem,4vw,3.25rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink">
+          <h3 className="mt-3 font-display text-[clamp(1.4rem,3vw,2.4rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink">
             {salon.nombre}
           </h3>
 
