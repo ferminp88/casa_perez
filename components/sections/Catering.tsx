@@ -187,9 +187,10 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
   // overflow-hidden + data-lenis-prevent (en el modal) la página queda quieta.
   useEffect(() => {
     if (!lightbox) return;
-    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    // Reset directo a "": capturar `prev` rompía cuando este componente se
+    // monta dentro de un drawer que ya había seteado overflow:"hidden".
+    return () => { document.body.style.overflow = ""; };
   }, [lightbox]);
 
   // ESC para cerrar

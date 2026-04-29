@@ -66,22 +66,21 @@ export function CateringPreview() {
     };
   }, [lightboxOpen, fotosCount]);
 
-  // Lock body scroll mientras el drawer está abierto + ESC para cerrar.
-  // Nota: el Catering interior también lockea overflow cuando abre su lightbox.
-  // Para evitar que su cleanup (corre al desmontar tras la animación de salida)
-  // deje overflow:"hidden" pegado, forzamos un reset diferido.
+  // ESC para cerrar el drawer. NO tocamos body.style.overflow:
+  // el panel cubre la pantalla y data-lenis-prevent en el área scrolleable
+  // ya evita que la rueda se propague a Lenis. Lockear body causaba que el
+  // cleanup del Catering interior (que captura prev="hidden") dejara la página
+  // con overflow:"hidden" pegado al cerrar, rompiendo scroll y anchors del nav.
   useEffect(() => {
     if (!drawerOpen) return;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setDrawerOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
-      // Re-asegurar después de que termine la animación de salida del drawer
-      // y el unmount de Catering (que restaura un valor stale "hidden").
+      // Reset defensivo por si algún hijo dejó overflow pegado.
+      document.body.style.overflow = "";
       window.setTimeout(() => {
         document.body.style.overflow = "";
       }, 700);
