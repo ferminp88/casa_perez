@@ -16,13 +16,29 @@ const TEASERS: Record<string, string> = {
 
 export function CateringPreview() {
   const [idx, setIdx] = useState(0);
-  const [expanded, setExpanded] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const data = CATERING_OPCIONES[idx];
   const total = CATERING_OPCIONES.length;
-  const fullRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const go = (n: number) => setIdx(((n % total) + total) % total);
+
+  const openFull = () => {
+    const dlg = dialogRef.current;
+    if (!dlg) return;
+    if (!dlg.open) dlg.showModal();
+  };
+  const closeFull = () => {
+    const dlg = dialogRef.current;
+    if (!dlg) return;
+    if (dlg.open) dlg.close();
+  };
+
+  // Click en el backdrop del <dialog> nativo cierra el modal.
+  // El backdrop es el propio dialog (los clicks fuera del contenido caen ahí).
+  const onDialogClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === e.currentTarget) closeFull();
+  };
 
   // Mini foto-rotación dentro del slide activo
   const [photoIdx, setPhotoIdx] = useState(0);
@@ -60,21 +76,6 @@ export function CateringPreview() {
     };
   }, [lightboxOpen, fotosCount]);
 
-  const toggleExpanded = () => {
-    if (expanded) {
-      setExpanded(false);
-      // Volver al header del preview
-      const el = document.getElementById("catering");
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      setExpanded(true);
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          fullRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 50);
-      });
-    }
-  };
 
   return (
     <>
@@ -247,15 +248,11 @@ export function CateringPreview() {
 
                 <button
                   type="button"
-                  onClick={toggleExpanded}
+                  onClick={openFull}
                   className="group mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-display text-sm font-medium tracking-tight text-paper transition-transform hover:scale-[1.03] active:scale-[0.97]"
                 >
-                  {expanded ? "Ocultar catering completo" : "Ver el catering completo"}
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${
-                      expanded ? "rotate-180" : ""
-                    }`}
-                  />
+                  Ver el catering completo
+                  <ChevronDown className="h-4 w-4 -rotate-90" />
                 </button>
               </div>
             </div>
@@ -263,22 +260,44 @@ export function CateringPreview() {
         </div>
       </section>
 
-      {/* Vista completa inline (sin overlay, sin fixed, sin body lock) */}
-      {expanded && (
-        <div ref={fullRef} className="relative">
-          <Catering />
-          <div className="flex justify-center bg-mustard px-6 pb-12">
+      {/* Vista completa en <dialog> nativo del browser.
+          Lo nativo evita las interacciones raras con AnimatePresence/Lenis:
+          el dialog se renderiza en el top-layer, fuera del flow de la página,
+          y el browser maneja focus, ESC y backdrop por sí solo. */}
+      <dialog
+        ref={dialogRef}
+        onClick={onDialogClick}
+        className="catering-dialog max-h-[100dvh] max-w-[100vw] w-full h-[100dvh] m-0 p-0 bg-mustard text-ink overflow-hidden border-0"
+      >
+        <div className="relative flex h-full w-full flex-col">
+          <div className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-ink/10 bg-mustard/85 px-5 py-3.5 backdrop-blur-xl md:px-8">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/70">
+              Catering · vista completa
+            </p>
             <button
               type="button"
-              onClick={toggleExpanded}
-              className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-display text-sm font-medium tracking-tight text-paper transition-transform hover:scale-[1.03] active:scale-[0.97]"
+              onClick={closeFull}
+              aria-label="Cerrar"
+              className="grid h-9 w-9 place-items-center rounded-full border border-ink/15 bg-ink/5 text-ink/80 transition-colors hover:border-ink hover:text-ink"
             >
               <X className="h-4 w-4" />
-              Ocultar catering completo
             </button>
           </div>
+          <div className="flex-1 overflow-y-auto" data-lenis-prevent>
+            <Catering />
+            <div className="flex justify-center bg-mustard px-6 pb-12">
+              <button
+                type="button"
+                onClick={closeFull}
+                className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-display text-sm font-medium tracking-tight text-paper transition-transform hover:scale-[1.03] active:scale-[0.97]"
+              >
+                <X className="h-4 w-4" />
+                Cerrar
+              </button>
+            </div>
+          </div>
         </div>
-      )}
+      </dialog>
 
       {/* Lightbox de fotos del preview */}
       <AnimatePresence>

@@ -162,6 +162,19 @@
   @keyframes spin-conic { to { --angle: 360deg; } }
 }
 
+/* Dialog nativo del catering completo */
+.catering-dialog::backdrop {
+  background: rgb(29 29 27 / 0.7);
+  backdrop-filter: blur(6px);
+}
+.catering-dialog[open] {
+  animation: catering-dialog-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes catering-dialog-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
