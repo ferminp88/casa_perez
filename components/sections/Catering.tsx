@@ -27,30 +27,41 @@ import { X } from "lucide-react";
  *  - Barra side-by-side: comparación visual directa de las 2 alternativas.
  */
 
-export function Catering() {
-  const [active, setActive] = useState(CATERING_OPCIONES[0].id);
+export function Catering({
+  activeId,
+  onActiveChange,
+}: {
+  activeId?: string;
+  onActiveChange?: (id: string) => void;
+} = {}) {
+  const [internalActive, setInternalActive] = useState(CATERING_OPCIONES[0].id);
+  const active = activeId ?? internalActive;
+  const setActive = (id: string) => {
+    if (onActiveChange) onActiveChange(id);
+    else setInternalActive(id);
+  };
   const data = CATERING_OPCIONES.find((o) => o.id === active)!;
 
   return (
-    <section id="catering" className="relative bg-night py-12 md:py-16 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
+    <section id="catering" className="relative bg-mustard py-12 md:py-16 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-transparent opacity-40" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
 
       <div className="container-x relative">
         {/* Header */}
         <Reveal className="grid items-end gap-10 md:grid-cols-12">
           <Reveal.Item className="md:col-span-7">
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-magenta">
-              <span className="block h-px w-6 bg-magenta" />
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink">
+              <span className="block h-px w-6 bg-ink" />
               Cocina propia · 100 m²
             </p>
-            <h2 className="font-display text-balance text-[clamp(1.65rem,4.2vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+            <h2 className="font-display text-balance text-[clamp(1.65rem,4.2vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-ink">
               Catering pensado <br />
-              <span className="font-editorial italic text-fiesta">de principio a fin.</span>
+              <span className="font-editorial italic text-ink">de principio a fin.</span>
             </h2>
           </Reveal.Item>
           <Reveal.Item className="md:col-span-5">
-            <p className="text-pretty text-sm text-bone/65 md:text-base">
+            <p className="text-pretty text-sm text-ink/65 md:text-base">
               Tres opciones armadas para cubrir distintos festejos. Bandejeo, islas,
               mesa dulce y barras — todo desde nuestra cocina, con el mismo equipo
               que arma cada evento.
@@ -68,13 +79,13 @@ export function Catering() {
                 onClick={() => setActive(o.id)}
                 className={`group relative inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13px] tracking-wide transition-all ${
                   isActive
-                    ? "border-magenta/60 bg-magenta/10 text-bone shadow-glow-magenta"
-                    : "border-bone/15 bg-bone/5 text-bone/70 hover:border-bone/30 hover:text-bone"
+                    ? "border-ink bg-ink text-paper"
+                    : "border-ink/20 bg-ink/5 text-ink/75 hover:border-ink/50 hover:bg-ink/10 hover:text-ink"
                 }`}
               >
                 <span
-                  className={`font-mono text-[10px] tracking-[0.2em] ${
-                    isActive ? "text-magenta" : "text-bone/40"
+                  className={`font-mono text-xs tracking-[0.2em] ${
+                    isActive ? "text-mustard" : "text-mustard-deep"
                   }`}
                 >
                   {o.numero}
@@ -120,17 +131,17 @@ export function Catering() {
         <div className="mt-20 md:mt-28">
           <Reveal className="grid items-end gap-10 md:grid-cols-12">
             <Reveal.Item className="md:col-span-7">
-              <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">
-                <span className="block h-px w-6 bg-lime" />
+              <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink">
+                <span className="block h-px w-6 bg-ink" />
                 Para acompañar
               </p>
-              <h3 className="font-display text-balance text-[clamp(1.45rem,3.4vw,2.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-bone">
+              <h3 className="font-display text-balance text-[clamp(1.45rem,3.4vw,2.75rem)] font-medium leading-[1.02] tracking-[-0.025em] text-ink">
                 Barra libre, <br />
-                <span className="font-editorial italic text-lime-glow">a tu medida.</span>
+                <span className="font-editorial italic text-ink">a tu medida.</span>
               </h3>
             </Reveal.Item>
             <Reveal.Item className="md:col-span-5">
-              <p className="text-pretty text-bone/65">
+              <p className="text-pretty text-ink/65">
                 Dos niveles de barra. La clásica viene incluida; la premium suma
                 tragos, cervezas y vinos de selección, más opciones de champagne.
               </p>
@@ -197,7 +208,7 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
   return (
     <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       {/* Hero image */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl ring-1 ring-bone/10">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl ring-1 ring-ink/10">
         <AnimatePresence mode="sync">
           <motion.img
             key={`${nombre}-${idx}`}
@@ -211,16 +222,16 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
             loading={idx === 0 ? "eager" : "lazy"}
           />
         </AnimatePresence>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/55 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
 
         {/* Counter + ver todas */}
         <div className="absolute inset-x-5 top-5 flex items-center justify-between">
-          <span className="rounded-full border border-bone/20 bg-night/60 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-bone/85 backdrop-blur">
+          <span className="rounded-full border border-ink/20 bg-mustard/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-ink/85 backdrop-blur">
             {String(idx + 1).padStart(2, "0")} / {String(fotos.length).padStart(2, "0")}
           </span>
           <button
             onClick={() => setLightbox(true)}
-            className="rounded-full border border-bone/20 bg-night/60 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-bone backdrop-blur transition-colors hover:border-magenta hover:text-magenta"
+            className="rounded-full border border-ink/20 bg-mustard/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-ink backdrop-blur transition-colors hover:border-ink hover:text-ink"
           >
             Ver todas ({fotos.length})
           </button>
@@ -233,7 +244,7 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
               key={i}
               onClick={() => setIdx(i)}
               aria-label={`Foto ${i + 1}`}
-              className="group relative h-px flex-1 overflow-hidden bg-bone/25"
+              className="group relative h-px flex-1 overflow-hidden bg-ink/25"
             >
               {i === idx && !paused ? (
                 <motion.span
@@ -241,10 +252,10 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{ duration: 4, ease: "linear" }}
-                  className="absolute inset-y-0 left-0 bg-magenta"
+                  className="absolute inset-y-0 left-0 bg-ink"
                 />
               ) : (
-                <span className={`absolute inset-y-0 left-0 ${i < idx ? "w-full bg-bone/60" : "w-0"}`} />
+                <span className={`absolute inset-y-0 left-0 ${i < idx ? "w-full bg-ink/60" : "w-0"}`} />
               )}
             </button>
           ))}
@@ -258,7 +269,7 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
             key={src}
             onClick={() => setIdx(i)}
             className={`relative aspect-square overflow-hidden rounded-md ring-1 transition-all ${
-              i === idx ? "ring-magenta" : "ring-bone/10 hover:ring-bone/30"
+              i === idx ? "ring-magenta" : "ring-ink/10 hover:ring-ink/30"
             }`}
           >
             <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
@@ -268,7 +279,7 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
         {fotos.length > 6 && (
           <button
             onClick={() => setLightbox(true)}
-            className="grid aspect-square place-items-center rounded-md bg-bone/8 font-mono text-[10px] text-bone/70 ring-1 ring-bone/10 transition-colors hover:bg-bone/15 hover:text-bone"
+            className="grid aspect-square place-items-center rounded-md bg-ink/8 font-mono text-xs text-ink/70 ring-1 ring-ink/10 transition-colors hover:bg-ink/15 hover:text-ink"
           >
             +{fotos.length - 6}
           </button>
@@ -283,18 +294,18 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             data-lenis-prevent
-            className="fixed inset-0 z-[80] overflow-y-auto bg-night/95 backdrop-blur-md"
+            className="fixed inset-0 z-[80] overflow-y-auto bg-mustard/95 backdrop-blur-md"
             onClick={() => setLightbox(false)}
           >
             {/* Header sticky con título + close */}
-            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-bone/10 bg-night/80 px-6 py-4 backdrop-blur md:px-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">
+            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-ink/10 bg-mustard/80 px-6 py-4 backdrop-blur md:px-12">
+              <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/70">
                 {nombre} · {fotos.length} fotos
               </p>
               <button
                 aria-label="Cerrar"
                 onClick={(e) => { e.stopPropagation(); setLightbox(false); }}
-                className="grid h-10 w-10 place-items-center rounded-full bg-bone/10 text-bone backdrop-blur transition-colors hover:bg-magenta hover:text-night"
+                className="grid h-10 w-10 place-items-center rounded-full bg-ink/10 text-ink backdrop-blur transition-colors hover:bg-ink hover:text-paper"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -309,7 +320,7 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
                 <button
                   key={src}
                   onClick={() => setZoomIdx(i)}
-                  className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl ring-1 ring-bone/10 transition-all hover:ring-magenta/60"
+                  className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl ring-1 ring-ink/10 transition-all hover:ring-ink/40"
                 >
                   <img
                     src={src}
@@ -317,8 +328,8 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <span className="absolute left-3 top-3 rounded-full border border-bone/20 bg-night/60 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-widest text-bone/85 backdrop-blur">
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <span className="absolute left-3 top-3 rounded-full border border-ink/20 bg-mustard/60 px-2.5 py-0.5 font-mono text-xs uppercase tracking-widest text-ink/85 backdrop-blur">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </button>
@@ -336,13 +347,13 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             data-lenis-prevent
-            className="fixed inset-0 z-[90] grid place-items-center bg-night/98 p-6 backdrop-blur-lg"
+            className="fixed inset-0 z-[90] grid place-items-center bg-mustard/98 p-6 backdrop-blur-lg"
             onClick={() => setZoomIdx(null)}
           >
             <button
               aria-label="Cerrar foto"
               onClick={(e) => { e.stopPropagation(); setZoomIdx(null); }}
-              className="absolute right-6 top-6 z-10 grid h-10 w-10 place-items-center rounded-full bg-bone/10 text-bone backdrop-blur transition-colors hover:bg-magenta hover:text-night"
+              className="absolute right-6 top-6 z-10 grid h-10 w-10 place-items-center rounded-full bg-ink/10 text-ink backdrop-blur transition-colors hover:bg-ink hover:text-paper"
             >
               <X className="h-4 w-4" />
             </button>
@@ -355,9 +366,9 @@ function HeroCycle({ fotos, nombre }: { fotos: string[]; nombre: string }) {
               exit={{ scale: 0.97, opacity: 0 }}
               transition={{ duration: 0.4, ease: easeOrganic }}
               onClick={(e) => e.stopPropagation()}
-              className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain ring-1 ring-bone/15 shadow-deep"
+              className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain ring-1 ring-ink/15 shadow-deep"
             />
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[11px] uppercase tracking-[0.3em] text-bone/60">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-ink/60">
               {String(zoomIdx + 1).padStart(2, "0")} / {String(fotos.length).padStart(2, "0")}
             </div>
           </motion.div>
@@ -379,19 +390,19 @@ function Menu({ menu }: { menu: { titulo: string; items: string[] }[] }) {
   return (
     <div className="space-y-7">
       {menu.map((sec, i) => (
-        <section key={sec.titulo} className="border-l-2 border-magenta/40 pl-5">
+        <section key={sec.titulo} className="border-l-2 border-ink/40 pl-5">
           <div className="mb-2.5 flex items-baseline gap-3">
-            <span className="font-mono text-[10px] tracking-[0.3em] text-magenta">
+            <span className="font-mono text-xs tracking-[0.3em] text-ink">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <h4 className="font-display text-base font-medium uppercase tracking-wider text-bone md:text-lg">
+            <h4 className="font-display text-base font-medium uppercase tracking-wider text-ink md:text-lg">
               {sec.titulo}
             </h4>
           </div>
           <ul className="space-y-1.5">
             {sec.items.map((it) => (
-              <li key={it} className="flex gap-2.5 text-[13px] leading-snug text-bone/75 md:text-sm">
-                <span className="mt-2 h-px w-2.5 flex-none bg-magenta/50" />
+              <li key={it} className="flex gap-2.5 text-[13px] leading-snug text-ink/75 md:text-sm">
+                <span className="mt-2 h-px w-2.5 flex-none bg-ink/40" />
                 <span className="text-pretty">{it}</span>
               </li>
             ))}
@@ -405,8 +416,8 @@ function Menu({ menu }: { menu: { titulo: string; items: string[] }[] }) {
 function BarraCard({ barra }: { barra: typeof BARRA_OPCIONES[number] }) {
   const accent =
     barra.acento === "lime"
-      ? { ring: "ring-lime/40", text: "text-lime", bg: "bg-lime", glow: "shadow-glow-lime" }
-      : { ring: "ring-magenta/40", text: "text-magenta", bg: "bg-magenta", glow: "shadow-glow-magenta" };
+      ? { ring: "ring-ink/40", text: "text-ink", bg: "bg-ink", glow: "" }
+      : { ring: "ring-ink/40", text: "text-ink", bg: "bg-ink", glow: "" };
 
   return (
     <article
@@ -415,33 +426,33 @@ function BarraCard({ barra }: { barra: typeof BARRA_OPCIONES[number] }) {
       {/* Foto background blureada */}
       <div className="absolute inset-0">
         <img src={barra.foto} alt="" className="h-full w-full object-cover saturate-50" />
-        <div className="absolute inset-0 bg-night/80 backdrop-blur-md" />
-        <div className="absolute inset-0 bg-gradient-to-br from-night/40 via-transparent to-night/80" />
+        <div className="absolute inset-0 bg-ink/85 backdrop-blur-md" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ink/60 via-transparent to-ink/90" />
       </div>
 
       <div className="relative p-7 md:p-10">
         <div className="flex items-center justify-between">
-          <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${accent.text}`}>
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-mustard">
             {barra.id === "clasica" ? "incluida" : "premium"}
           </p>
-          <span className={`block h-2 w-2 rounded-full ${accent.bg}`} style={{ boxShadow: "0 0 12px currentColor" }} />
+          <span className="block h-2 w-2 rounded-full bg-mustard" style={{ boxShadow: "0 0 12px currentColor" }} />
         </div>
 
-        <h4 className="mt-4 font-display text-3xl font-medium tracking-tight text-bone md:text-4xl">
+        <h4 className="mt-4 font-display text-3xl font-medium tracking-tight text-paper md:text-4xl">
           {barra.nombre}
         </h4>
-        <p className="mt-3 max-w-md text-sm text-bone/70">{barra.bajada}</p>
+        <p className="mt-3 max-w-md text-sm text-paper/70">{barra.bajada}</p>
 
         <div className="mt-8 space-y-6">
           {barra.bloques.map((b) => (
             <div key={b.titulo}>
-              <p className={`font-mono text-[10px] uppercase tracking-[0.25em] ${accent.text}`}>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-mustard">
                 {b.titulo}
               </p>
               <ul className="mt-3 space-y-1.5">
                 {b.items.map((it) => (
-                  <li key={it} className="flex gap-2 text-sm text-bone/85">
-                    <span className={`mt-2 h-px w-3 flex-none ${accent.bg} opacity-70`} />
+                  <li key={it} className="flex gap-2 text-sm text-paper/85">
+                    <span className="mt-2 h-px w-3 flex-none bg-mustard opacity-70" />
                     {it}
                   </li>
                 ))}

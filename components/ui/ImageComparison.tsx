@@ -92,10 +92,10 @@ export function ImageComparison({
       />
 
       {/* Etiquetas */}
-      <span className="pointer-events-none absolute left-4 top-4 rounded-full border border-bone/15 bg-night/60 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-bone/90 backdrop-blur">
+      <span className="pointer-events-none absolute left-4 top-4 rounded-full border border-bone/15 bg-night/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-bone/90 backdrop-blur">
         {beforeLabel}
       </span>
-      <span className="pointer-events-none absolute right-4 top-4 rounded-full border border-magenta/40 bg-magenta/15 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-magenta backdrop-blur">
+      <span className="pointer-events-none absolute right-4 top-4 rounded-full border border-magenta/40 bg-magenta/15 px-3 py-1 font-mono text-xs uppercase tracking-widest text-magenta backdrop-blur">
         {afterLabel}
       </span>
 
@@ -117,7 +117,7 @@ export function ImageComparison({
       </motion.div>
 
       {/* Hint */}
-      <span className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/60">
+      <span className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-bone/60">
         Arrastrá para comparar
       </span>
     </div>

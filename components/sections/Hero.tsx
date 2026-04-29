@@ -92,7 +92,7 @@ export function Hero() {
             <span className="block h-1.5 w-1.5 rounded-full bg-lime" />
             <span className="absolute inset-0 animate-pulse-ring rounded-full bg-lime/60" />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-bone/80">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-bone/80">
             {BRAND.city} · disponible 2026
           </span>
         </motion.div>
@@ -152,7 +152,7 @@ export function Hero() {
           transition={{ delay: 1.5, duration: 0.8 }}
           className="mt-12 flex items-center gap-3"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/40">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-bone/40">
             {String(idx + 1).padStart(2, "0")} / {String(HERO_IMAGES.length).padStart(2, "0")}
           </span>
           <div className="flex flex-1 items-center gap-1.5 max-w-md">
@@ -181,7 +181,7 @@ export function Hero() {
         transition={{ delay: 1.8, duration: 1 }}
         className="pointer-events-none absolute bottom-4 left-0 right-0 z-10"
       >
-        <div className="flex items-center justify-between px-6 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/40 md:px-10">
+        <div className="flex items-center justify-between px-6 font-mono text-xs uppercase tracking-[0.3em] text-bone/40 md:px-10">
           <span>↓ scroll para descubrir</span>
           <span className="hidden md:inline">CityBell · La Plata · AR</span>
         </div>

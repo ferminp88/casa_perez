@@ -20,7 +20,7 @@ export function Espacios() {
         <div className="container-x relative">
           <Reveal className="flex flex-col items-end justify-between gap-6 md:flex-row">
             <Reveal.Item className="max-w-3xl">
-              <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-mustard-deep">
+              <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">
                 <span className="block h-px w-6 bg-mustard-deep" />
                 Tres espacios, un concepto
               </p>
@@ -64,7 +64,7 @@ export function Espacios() {
                       }`}
                   >
                     <span
-                      className={`font-mono text-[10px] tracking-[0.2em] ${isActive ? "text-mustard" : "text-mustard-deep"
+                      className={`font-mono text-xs tracking-[0.2em] ${isActive ? "text-mustard" : "text-mustard-deep"
                         }`}
                     >
                       0{i + 1}
@@ -89,7 +89,7 @@ export function Espacios() {
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.45, ease: easeOrganic }}
             >
-              <SalonPanel salon={active} index={activeIndex} />
+              <SalonPanel salon={active} index={activeIndex} activeId={activeId} setActiveId={setActiveId} />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -105,7 +105,17 @@ type Salon = (typeof ESPACIOS)[number];
  * SalonPanel — panel del salón activo. Carrusel + bloque de info al lado,
  * los dos arrancan en el mismo top (sin sticky) para que no haya desfase.
  */
-function SalonPanel({ salon, index }: { salon: Salon; index: number }) {
+function SalonPanel({
+  salon,
+  index,
+  activeId,
+  setActiveId,
+}: {
+  salon: Salon;
+  index: number;
+  activeId: string;
+  setActiveId: (id: string) => void;
+}) {
   return (
     <div>
       <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
@@ -116,7 +126,7 @@ function SalonPanel({ salon, index }: { salon: Salon; index: number }) {
 
         {/* Info */}
         <div className="lg:col-span-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-mustard-deep">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-mustard-deep">
             Salón · {String(index + 1).padStart(2, "0")} / {String(ESPACIOS.length).padStart(2, "0")}
           </p>
           <h3 className="mt-3 font-display text-[clamp(1.4rem,3vw,2.4rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink">
@@ -125,20 +135,20 @@ function SalonPanel({ salon, index }: { salon: Salon; index: number }) {
 
           <dl className="mt-7 grid grid-cols-3 gap-4 border-y border-ink/10 py-5">
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-mustard-deep">m²</dt>
+              <dt className="font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">m²</dt>
               <dd className="mt-1.5 text-sm text-ink/85">{salon.metros}</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-mustard-deep">aire</dt>
+              <dt className="font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">aire</dt>
               <dd className="mt-1.5 text-sm text-ink/85">{salon.aire}</dd>
             </div>
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-mustard-deep">cap.</dt>
+              <dt className="font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">cap.</dt>
               <dd className="mt-1.5 text-sm text-ink/85">{salon.capacidad}</dd>
             </div>
           </dl>
 
-          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-mustard-deep">
+          <p className="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-mustard-deep">
             Qué incluye
           </p>
           <ul className="mt-4 space-y-3">
@@ -157,6 +167,33 @@ function SalonPanel({ salon, index }: { salon: Salon; index: number }) {
             Reservar este salón
             <ArrowUpRight className="h-4 w-4" />
           </a>
+
+          {/* Navegación entre salones (mismo estilo que tabs superiores) */}
+          <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-ink/10 pt-6">
+            <p className="mr-2 font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">
+              Ver otro salón
+            </p>
+            {ESPACIOS.map((e, i) => {
+              if (e.id === salon.id) return null;
+              const isPrev = i < index;
+              const Icon = isPrev ? ChevronLeft : ChevronRight;
+              return (
+                <button
+                  key={e.id}
+                  type="button"
+                  onClick={() => setActiveId(e.id)}
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-ink/15 bg-ink/5 px-4 py-2.5 text-[13px] tracking-wide text-ink/75 transition-all hover:border-ink hover:bg-ink hover:text-paper"
+                >
+                  {isPrev && <Icon className="h-3.5 w-3.5" />}
+                  <span className="font-mono text-xs tracking-[0.2em] text-mustard-deep">
+                    0{i + 1}
+                  </span>
+                  {e.nombre}
+                  {!isPrev && <Icon className="h-3.5 w-3.5" />}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -234,7 +271,7 @@ function Carousel({ photos, nombre }: { photos: string[]; nombre: string }) {
         </AnimatePresence>
 
         {/* Counter */}
-        <div className="absolute left-5 top-5 rounded-full border border-paper/30 bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-paper backdrop-blur">
+        <div className="absolute left-5 top-5 rounded-full border border-paper/30 bg-ink/70 px-3 py-1 font-mono text-xs uppercase tracking-widest text-paper backdrop-blur">
           {String(idx + 1).padStart(2, "0")} / {String(len).padStart(2, "0")}
         </div>
 
@@ -341,7 +378,7 @@ function Carousel({ photos, nombre }: { photos: string[]; nombre: string }) {
               onClick={(e) => e.stopPropagation()}
               className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-deep"
             />
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[11px] uppercase tracking-[0.3em] text-paper/70">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-paper/70">
               {String(zoomIdx + 1).padStart(2, "0")} / {String(len).padStart(2, "0")}
             </div>
           </motion.div>

@@ -74,7 +74,7 @@ export function Preloader() {
             </div>
 
             <motion.p
-              className="font-mono text-[10px] uppercase tracking-[0.4em] text-bone/55"
+              className="font-mono text-xs uppercase tracking-[0.4em] text-bone/55"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.6 }}

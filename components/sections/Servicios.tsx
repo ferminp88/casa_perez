@@ -19,7 +19,7 @@ export function Servicios() {
       <div className="container-x relative">
         <Reveal className="mb-12 grid gap-8 md:grid-cols-12">
           <Reveal.Item className="md:col-span-7">
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-violet-glow">
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-violet-glow">
               <span className="block h-px w-6 bg-violet" />
               Servicio integral
             </p>
@@ -122,7 +122,7 @@ export function Servicios() {
                     <img src={data.img} alt={data.titulo} className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-transparent" />
                     <div className="absolute inset-x-7 bottom-7 text-bone">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">
+                      <p className="font-mono text-xs uppercase tracking-[0.3em] text-magenta">
                         {data.id}
                       </p>
                       <p className="mt-2 font-display text-2xl font-medium tracking-tight md:text-3xl">{data.titulo}</p>

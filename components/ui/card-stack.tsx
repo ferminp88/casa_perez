@@ -256,7 +256,7 @@ export function CardStack<T extends CardStackItem>({
 
           {/* Counter + dots */}
           <div className="flex items-center gap-3">
-            <span className="font-mono text-[11px] tracking-[0.3em] text-bone/60 tabular-nums">
+            <span className="font-mono text-xs tracking-[0.3em] text-bone/60 tabular-nums">
               {String(active + 1).padStart(2, "0")}
               <span className="mx-1 text-bone/30">/</span>
               {String(items.length).padStart(2, "0")}

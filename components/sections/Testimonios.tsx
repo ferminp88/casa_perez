@@ -26,7 +26,7 @@ export function Testimonios() {
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
           <Reveal.Item className="max-w-3xl">
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-violet-glow">
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-violet-glow">
               <span className="block h-px w-6 bg-violet" />
               Lo que cuentan
             </p>
@@ -42,7 +42,7 @@ export function Testimonios() {
                   <Star key={i} className="h-3.5 w-3.5 fill-lime text-lime" strokeWidth={0} />
                 ))}
               </div>
-              <span className="font-mono text-[11px] uppercase tracking-wider text-bone/80">
+              <span className="font-mono text-xs uppercase tracking-wider text-bone/80">
                 4.9 · +400 festejos
               </span>
             </div>
@@ -93,7 +93,7 @@ function Card({ t }: { t: typeof TESTIMONIOS[number] }) {
           <p className="font-display text-sm font-medium tracking-tight text-black">
             {t.nombre}
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-wider text-black/55">
+          <p className="font-mono text-xs uppercase tracking-wider text-black/55">
             {t.evento}
           </p>
         </div>

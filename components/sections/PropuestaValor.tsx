@@ -24,7 +24,7 @@ export function PropuestaValor() {
         {/* Eyebrow + título full-width */}
         <Reveal className="max-w-4xl">
           <Reveal.Item>
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-mustard-deep">
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">
               <span className="block h-px w-6 bg-mustard-deep" />
               Atención personalizada
             </p>

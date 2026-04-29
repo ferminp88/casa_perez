@@ -42,7 +42,7 @@ export function Videos() {
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
           <Reveal.Item>
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-magenta">
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-magenta">
               <span className="block h-px w-6 bg-magenta" />
               En movimiento
             </p>
@@ -164,7 +164,7 @@ function VideoCard({
       </button>
 
       <div className="pointer-events-none absolute inset-x-5 bottom-5 text-bone">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">Casa Pérez</p>
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-magenta">Casa Pérez</p>
         <p className="mt-1 truncate font-display text-lg font-medium">{item.title}</p>
       </div>
     </div>

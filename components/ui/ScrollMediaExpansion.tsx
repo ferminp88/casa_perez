@@ -90,10 +90,10 @@ export function ScrollMediaExpansion({
             Evita los 420vh de scroll vacío y las animaciones JS pesadas. */}
       <div className="md:hidden bg-night px-6 py-16">
         <div className="mb-6 flex items-center justify-between">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-bone/55">
             Salón {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-magenta">
             {id}
           </p>
         </div>
@@ -206,10 +206,10 @@ export function ScrollMediaExpansion({
 
         {/* Frame counter / breadcrumb fijo */}
         <div className="pointer-events-none absolute left-6 top-6 z-30 md:left-10 md:top-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-bone/55">
             Salón {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </p>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">
+          <p className="mt-1 font-mono text-xs uppercase tracking-[0.3em] text-magenta">
             {id}
           </p>
         </div>
@@ -331,7 +331,7 @@ export function ScrollMediaExpansion({
 
         {/* Scroll hint solo en el primer salón */}
         {index === 0 && (
-          <div className="pointer-events-none absolute bottom-6 left-1/2 z-30 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.4em] text-bone/45">
+          <div className="pointer-events-none absolute bottom-6 left-1/2 z-30 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.4em] text-bone/45">
             ↓ scroll para entrar
           </div>
         )}
@@ -371,7 +371,7 @@ function Stat({
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 text-lime" strokeWidth={1.5} />
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-bone/60">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-bone/60">
           {label}
         </p>
       </div>

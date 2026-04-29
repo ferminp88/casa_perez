@@ -36,17 +36,17 @@ export function Footer() {
             ))}
           </nav>
           <div className="md:justify-self-end">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">Seguinos</p>
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-bone/45">Seguinos</p>
             <div className="mt-3 flex gap-4 text-sm">
               <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="text-bone/85 transition-colors hover:text-magenta">Instagram</a>
               <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" className="text-bone/85 transition-colors hover:text-magenta">Facebook</a>
             </div>
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">Atención</p>
+            <p className="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-bone/45">Atención</p>
             <p className="mt-2 text-sm text-bone/80">{CONTACT.hours}</p>
           </div>
         </div>
 
-        <div className="mt-16 border-t border-bone/8 py-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bone/45">
+        <div className="mt-16 border-t border-bone/8 py-6 font-mono text-xs uppercase tracking-[0.2em] text-bone/45">
           <p>© {new Date().getFullYear()} Casa Pérez Multiespacio · Todos los derechos reservados</p>
         </div>
       </div>

@@ -69,7 +69,7 @@ export function GaleriaBento() {
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <Reveal.Item>
-            <p className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">
+            <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-lime">
               <span className="block h-px w-6 bg-lime" />
               Pequeñas escenas
             </p>
@@ -89,7 +89,7 @@ export function GaleriaBento() {
           </Reveal.Item>
         </Reveal>
 
-        <Reveal className="mb-8 font-mono text-[11px] uppercase tracking-[0.3em] text-bone/40">
+        <Reveal className="mb-8 font-mono text-xs uppercase tracking-[0.3em] text-bone/40">
           <Reveal.Item>
             ✦ archivo vivo · 400+ festejos · arrastrá las filas o tocá una foto para verla en grande
           </Reveal.Item>

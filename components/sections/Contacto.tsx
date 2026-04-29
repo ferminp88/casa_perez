@@ -13,7 +13,7 @@ export function Contacto() {
       <div className="container-x relative">
         <Reveal className="grid gap-16 md:grid-cols-12">
           <Reveal.Item className="md:col-span-6">
-            <p className="mb-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">
+            <p className="mb-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-lime">
               <span className="block h-px w-6 bg-lime" />
               Reservar
             </p>
@@ -60,7 +60,7 @@ export function Contacto() {
                 <li key={a.label} className="relative py-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-mustard">
+                      <p className="font-mono text-xs uppercase tracking-[0.3em] text-mustard">
                         {a.label}
                       </p>
                       <p className="mt-2 font-display text-lg font-medium text-bone">
@@ -68,7 +68,7 @@ export function Contacto() {
                       </p>
                       <p className="mt-1 text-sm text-bone/85">{a.city}</p>
                     </div>
-                    <span className="font-mono text-[10px] text-bone/60">0{i + 1}</span>
+                    <span className="font-mono text-xs text-bone/60">0{i + 1}</span>
                   </div>
                 </li>
               ))}
@@ -76,14 +76,14 @@ export function Contacto() {
 
             <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <a href={`tel:${CONTACT.phoneTel}`} className="group">
-                <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Teléfono</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-bone/70">Teléfono</p>
                 <p className="mt-2 flex items-center gap-2 font-display text-base font-medium text-bone">
                   <Phone className="h-4 w-4 text-lime" strokeWidth={1.5} />
                   {CONTACT.phone}
                 </p>
               </a>
               <a href={`mailto:${CONTACT.email}`} className="group">
-                <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Email</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-bone/70">Email</p>
                 <p className="mt-2 flex items-center gap-2 font-display text-sm font-medium text-bone">
                   <Mail className="h-4 w-4 flex-none text-lime" strokeWidth={1.5} />
                   <span className="break-all">{CONTACT.email}</span>
@@ -94,7 +94,7 @@ export function Contacto() {
             <div className="mt-6 flex items-center gap-3">
               <Clock className="h-4 w-4 flex-none text-magenta" strokeWidth={1.5} />
               <p className="text-sm text-bone">
-                <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Atención · </span>
+                <span className="font-mono text-xs uppercase tracking-[0.3em] text-bone/70">Atención · </span>
                 {CONTACT.hours}
               </p>
             </div>

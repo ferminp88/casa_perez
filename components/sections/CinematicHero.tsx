@@ -119,7 +119,7 @@ export function CinematicHero() {
             <span className="block h-1.5 w-1.5 rounded-full bg-lime" />
             <span className="absolute inset-0 animate-pulse-ring rounded-full bg-lime/60" />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-bone/80">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-bone/80">
             Reservas abiertas · Temporada 2026
           </span>
         </motion.div>
@@ -178,7 +178,7 @@ export function CinematicHero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-20 left-1/2 z-30 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.4em] text-bone/45 md:bottom-24"
+        className="absolute bottom-20 left-1/2 z-30 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.4em] text-bone/45 md:bottom-24"
       >
         ↓ scroll
       </motion.div>
