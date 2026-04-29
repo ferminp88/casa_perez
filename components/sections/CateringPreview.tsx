@@ -5,12 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { CATERING_OPCIONES } from "@/lib/content";
 import { easeOrganic } from "@/lib/motion";
-import {
-  ArrowUpRight,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Catering } from "@/components/sections/Catering";
 
 const TEASERS: Record<string, string> = {
@@ -21,17 +16,13 @@ const TEASERS: Record<string, string> = {
 
 export function CateringPreview() {
   const [idx, setIdx] = useState(0);
-  const [drawerIdx, setDrawerIdx] = useState(0);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const data = CATERING_OPCIONES[idx];
   const total = CATERING_OPCIONES.length;
-  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const fullRef = useRef<HTMLDivElement | null>(null);
 
   const go = (n: number) => setIdx(((n % total) + total) % total);
-  const goDrawer = (n: number) =>
-    setDrawerIdx(((n % total) + total) % total);
-  const drawerData = CATERING_OPCIONES[drawerIdx];
 
   // Mini foto-rotación dentro del slide activo
   const [photoIdx, setPhotoIdx] = useState(0);
@@ -53,10 +44,9 @@ export function CateringPreview() {
     return () => clearInterval(id);
   }, [idx, fotosCount, lightboxOpen]);
 
-  // ESC + flechas para el lightbox
+  // ESC + flechas para el lightbox de fotos del preview
   useEffect(() => {
     if (!lightboxOpen) return;
-    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightboxOpen(false);
@@ -65,44 +55,25 @@ export function CateringPreview() {
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
   }, [lightboxOpen, fotosCount]);
 
-  // ESC para cerrar el drawer. NO tocamos body.style.overflow:
-  // el panel cubre la pantalla y data-lenis-prevent en el área scrolleable
-  // ya evita que la rueda se propague a Lenis. Lockear body causaba que el
-  // cleanup del Catering interior (que captura prev="hidden") dejara la página
-  // con overflow:"hidden" pegado al cerrar, rompiendo scroll y anchors del nav.
-  useEffect(() => {
-    if (!drawerOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDrawerOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      // Reset defensivo por si algún hijo dejó overflow pegado.
-      document.body.style.overflow = "";
-      window.setTimeout(() => {
-        document.body.style.overflow = "";
-      }, 700);
-    };
-  }, [drawerOpen]);
-
-  const openDrawer = () => {
-    // El drawer arranca en la opción que el usuario estaba viendo en el preview
-    setDrawerIdx(idx);
-    setDrawerOpen(true);
-    requestAnimationFrame(() => {
-      drawerRef.current?.scrollTo({ top: 0 });
-    });
-  };
-
-  const next = () => {
-    goDrawer(drawerIdx + 1);
-    drawerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  const toggleExpanded = () => {
+    if (expanded) {
+      setExpanded(false);
+      // Volver al header del preview
+      const el = document.getElementById("catering");
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      setExpanded(true);
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          fullRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
+      });
+    }
   };
 
   return (
@@ -130,13 +101,13 @@ export function CateringPreview() {
             </Reveal.Item>
             <Reveal.Item className="md:col-span-5">
               <p className="text-pretty text-sm text-ink/65 md:text-base">
-                Tres opciones armadas para distintos festejos. Bandejeo, islas, mesa
-                dulce y barras — todo desde nuestra cocina.
+                Tres opciones armadas para distintos festejos. Bandejeo, islas,
+                mesa dulce y barras — todo desde nuestra cocina.
               </p>
             </Reveal.Item>
           </Reveal>
 
-          {/* Slider */}
+          {/* Slider preview */}
           <div className="relative mt-10">
             <div className="mb-6 flex items-center justify-between gap-4">
               <div className="flex flex-wrap gap-2">
@@ -183,126 +154,133 @@ export function CateringPreview() {
               </div>
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={data.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.45, ease: easeOrganic }}
-                className="grid gap-6 md:grid-cols-12 md:gap-10"
-              >
-                <div className="md:col-span-7">
-                  <div className="group/photo relative aspect-[16/10] w-full overflow-hidden rounded-3xl ring-1 ring-ink/10">
-                    <AnimatePresence mode="sync">
-                      <motion.img
-                        key={`${data.id}-${photoIdx}`}
-                        src={data.fotos[photoIdx]}
-                        alt={`${data.nombre} foto ${photoIdx + 1}`}
-                        onClick={() => setLightboxOpen(true)}
-                        initial={{ opacity: 0, scale: 1.04 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1, ease: easeOrganic }}
-                        className="absolute inset-0 h-full w-full cursor-zoom-in object-cover"
-                        loading="lazy"
-                      />
-                    </AnimatePresence>
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-
-                    <button
-                      type="button"
-                      aria-label="Foto anterior"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        prevPhoto();
-                      }}
-                      className="absolute left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Foto siguiente"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        nextPhoto();
-                      }}
-                      className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-
-                    <div className="absolute inset-x-5 bottom-5 flex gap-1.5">
-                      {data.fotos.slice(0, 6).map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setPhotoIdx(i)}
-                          aria-label={`Foto ${i + 1}`}
-                          className="group relative h-px flex-1 overflow-hidden bg-ink/25"
-                        >
-                          <span
-                            className={`absolute inset-y-0 left-0 transition-all ${
-                              i === photoIdx
-                                ? "w-full bg-ink"
-                                : i < photoIdx
-                                ? "w-full bg-ink/60"
-                                : "w-0"
-                            }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="md:col-span-5 md:self-center">
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink">
-                    Catering · {data.numero}
-                  </p>
-                  <h3 className="mt-3 font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">
-                    {data.nombre}
-                  </h3>
-                  <p className="mt-4 text-pretty text-[14px] leading-relaxed text-ink/70 md:text-[15px]">
-                    {TEASERS[data.id] ??
-                      "Una propuesta de catering pensada para acompañar tu festejo de principio a fin."}
-                  </p>
-
-                  <p className="mt-5 font-mono text-xs uppercase tracking-[0.25em] text-ink/45">
-                    Incluye {data.menu.length} momentos del evento
-                  </p>
-                  <ul className="mt-3 flex flex-wrap gap-2">
-                    {data.menu.slice(0, 4).map((sec) => (
-                      <li
-                        key={sec.titulo}
-                        className="rounded-full border border-ink/12 bg-ink/[0.04] px-3 py-1 text-xs tracking-wide text-ink/75"
-                      >
-                        {sec.titulo}
-                      </li>
-                    ))}
-                    {data.menu.length > 4 && (
-                      <li className="rounded-full border border-ink/12 bg-ink/[0.04] px-3 py-1 text-xs tracking-wide text-ink/55">
-                        +{data.menu.length - 4} más
-                      </li>
-                    )}
-                  </ul>
+            {/* Card del preview activo (sin AnimatePresence — solo morph in place) */}
+            <div className="grid gap-6 md:grid-cols-12 md:gap-10">
+              <div className="md:col-span-7">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl ring-1 ring-ink/10">
+                  <img
+                    key={`${data.id}-${photoIdx}`}
+                    src={data.fotos[photoIdx]}
+                    alt={`${data.nombre} foto ${photoIdx + 1}`}
+                    onClick={() => setLightboxOpen(true)}
+                    className="absolute inset-0 h-full w-full cursor-zoom-in object-cover transition-opacity duration-700"
+                    loading="lazy"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
 
                   <button
                     type="button"
-                    onClick={openDrawer}
-                    className="group mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-display text-sm font-medium tracking-tight text-paper  transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                    aria-label="Foto anterior"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevPhoto();
+                    }}
+                    className="absolute left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
                   >
-                    Ver el catering completo
-                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ChevronLeft className="h-5 w-5" />
                   </button>
+                  <button
+                    type="button"
+                    aria-label="Foto siguiente"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextPhoto();
+                    }}
+                    className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+
+                  <div className="absolute inset-x-5 bottom-5 flex gap-1.5">
+                    {data.fotos.slice(0, 6).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setPhotoIdx(i)}
+                        aria-label={`Foto ${i + 1}`}
+                        className="group relative h-px flex-1 overflow-hidden bg-ink/25"
+                      >
+                        <span
+                          className={`absolute inset-y-0 left-0 transition-all ${
+                            i === photoIdx
+                              ? "w-full bg-ink"
+                              : i < photoIdx
+                              ? "w-full bg-ink/60"
+                              : "w-0"
+                          }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+
+              <div className="md:col-span-5 md:self-center">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink">
+                  Catering · {data.numero}
+                </p>
+                <h3 className="mt-3 font-display text-2xl font-medium tracking-tight text-ink md:text-3xl">
+                  {data.nombre}
+                </h3>
+                <p className="mt-4 text-pretty text-[14px] leading-relaxed text-ink/70 md:text-[15px]">
+                  {TEASERS[data.id] ??
+                    "Una propuesta de catering pensada para acompañar tu festejo de principio a fin."}
+                </p>
+
+                <p className="mt-5 font-mono text-xs uppercase tracking-[0.25em] text-ink/45">
+                  Incluye {data.menu.length} momentos del evento
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {data.menu.slice(0, 4).map((sec) => (
+                    <li
+                      key={sec.titulo}
+                      className="rounded-full border border-ink/12 bg-ink/[0.04] px-3 py-1 text-xs tracking-wide text-ink/75"
+                    >
+                      {sec.titulo}
+                    </li>
+                  ))}
+                  {data.menu.length > 4 && (
+                    <li className="rounded-full border border-ink/12 bg-ink/[0.04] px-3 py-1 text-xs tracking-wide text-ink/55">
+                      +{data.menu.length - 4} más
+                    </li>
+                  )}
+                </ul>
+
+                <button
+                  type="button"
+                  onClick={toggleExpanded}
+                  className="group mt-7 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-display text-sm font-medium tracking-tight text-paper transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                >
+                  {expanded ? "Ocultar catering completo" : "Ver el catering completo"}
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      expanded ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Lightbox de fotos */}
+      {/* Vista completa inline (sin overlay, sin fixed, sin body lock) */}
+      {expanded && (
+        <div ref={fullRef} className="relative">
+          <Catering />
+          <div className="flex justify-center bg-mustard px-6 pb-12">
+            <button
+              type="button"
+              onClick={toggleExpanded}
+              className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-display text-sm font-medium tracking-tight text-paper transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            >
+              <X className="h-4 w-4" />
+              Ocultar catering completo
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox de fotos del preview */}
       <AnimatePresence>
         {lightboxOpen && (
           <motion.div
@@ -351,107 +329,18 @@ export function CateringPreview() {
               <ChevronRight className="h-6 w-6" />
             </button>
 
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={`lb-${data.id}-${photoIdx}`}
-                src={data.fotos[photoIdx]}
-                alt={`${data.nombre} foto ${photoIdx + 1}`}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.35, ease: easeOrganic }}
-                onClick={(e) => e.stopPropagation()}
-                className="max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
-              />
-            </AnimatePresence>
+            <img
+              key={`lb-${data.id}-${photoIdx}`}
+              src={data.fotos[photoIdx]}
+              alt={`${data.nombre} foto ${photoIdx + 1}`}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
+            />
 
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-paper/70">
               {photoIdx + 1} / {fotosCount}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Drawer lateral con el catering completo */}
-      <AnimatePresence>
-        {drawerOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              key="backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: easeOrganic }}
-              onClick={() => setDrawerOpen(false)}
-              className="fixed inset-0 z-[100] bg-ink/70 backdrop-blur-sm"
-            />
-
-            {/* Panel */}
-            <motion.aside
-              key="drawer"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-y-0 right-0 z-[110] w-full overflow-hidden bg-mustard shadow-deep ring-1 ring-ink/10 md:w-[min(1100px,92vw)]"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Catering completo"
-            >
-              {/* Toolbar sticky */}
-              <div className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-ink/10 bg-mustard/80 px-5 py-3.5 backdrop-blur-xl md:px-8">
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setDrawerOpen(false)}
-                    aria-label="Cerrar"
-                    className="grid h-9 w-9 place-items-center rounded-full border border-ink/15 bg-ink/5 text-ink/80 transition-colors hover:border-ink hover:text-ink"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                  <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/60">
-                    Catering · vista completa
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={next}
-                  className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-display text-[13px] font-medium tracking-tight text-paper  transition-transform hover:scale-[1.03] active:scale-[0.97]"
-                >
-                  Siguiente menú
-                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </button>
-              </div>
-
-              {/* Contenido scrolleable */}
-              <div
-                ref={drawerRef}
-                data-lenis-prevent
-                className="h-[calc(100%-60px)] overflow-y-auto"
-              >
-                <Catering
-                  activeId={drawerData.id}
-                  onActiveChange={(id) => {
-                    const i = CATERING_OPCIONES.findIndex((o) => o.id === id);
-                    if (i >= 0) goDrawer(i);
-                  }}
-                />
-
-                <div className="flex justify-center bg-mustard px-6 pb-12">
-                  <button
-                    type="button"
-                    onClick={() => setDrawerOpen(false)}
-                    className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-display text-sm font-medium tracking-tight text-paper  transition-transform hover:scale-[1.03] active:scale-[0.97]"
-                  >
-                    <X className="h-4 w-4" />
-                    Cerrar
-                  </button>
-                </div>
-              </div>
-            </motion.aside>
-          </>
         )}
       </AnimatePresence>
     </>
