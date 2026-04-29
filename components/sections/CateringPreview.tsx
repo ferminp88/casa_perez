@@ -71,6 +71,7 @@ export function CateringPreview() {
     <>
       <section
         id="catering"
+        data-nav-theme="light"
         className="relative bg-mustard py-12 md:py-16 overflow-hidden"
       >
         <div className="pointer-events-none absolute inset-0 bg-transparent opacity-40" />

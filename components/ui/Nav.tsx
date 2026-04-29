@@ -70,13 +70,10 @@ export function Nav() {
         <nav className="flex w-full items-center justify-between gap-6 px-6 py-4 md:px-10 md:py-5 lg:px-14">
           <a href="#" aria-label="Casa Pérez" className="flex items-center gap-2">
             <img
-              src={isLight ? "/brand/logo-negro.svg" : "/brand/logo-blanco.svg"}
+              src="/brand/logo-blanco.svg"
               alt="Casa Pérez Multiespacio"
-              className="h-11 w-auto md:h-12 lg:h-14 transition-opacity duration-300"
-              onError={(e) => {
-                // fallback si no existe logo-negro.svg
-                (e.currentTarget as HTMLImageElement).src = "/brand/logo-blanco.svg";
-              }}
+              className="h-11 w-auto md:h-12 lg:h-14 transition-[filter] duration-300"
+              style={{ filter: isLight ? "invert(1) brightness(0)" : "none" }}
             />
           </a>
 
