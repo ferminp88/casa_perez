@@ -21,6 +21,7 @@ const TEASERS: Record<string, string> = {
 
 export function CateringPreview() {
   const [idx, setIdx] = useState(0);
+  const [drawerIdx, setDrawerIdx] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const data = CATERING_OPCIONES[idx];
@@ -28,6 +29,9 @@ export function CateringPreview() {
   const drawerRef = useRef<HTMLDivElement | null>(null);
 
   const go = (n: number) => setIdx(((n % total) + total) % total);
+  const goDrawer = (n: number) =>
+    setDrawerIdx(((n % total) + total) % total);
+  const drawerData = CATERING_OPCIONES[drawerIdx];
 
   // Mini foto-rotación dentro del slide activo
   const [photoIdx, setPhotoIdx] = useState(0);
@@ -88,15 +92,16 @@ export function CateringPreview() {
   }, [drawerOpen]);
 
   const openDrawer = () => {
+    // El drawer arranca en la opción que el usuario estaba viendo en el preview
+    setDrawerIdx(idx);
     setDrawerOpen(true);
-    // reset scroll del drawer al abrir
     requestAnimationFrame(() => {
       drawerRef.current?.scrollTo({ top: 0 });
     });
   };
 
   const next = () => {
-    go(idx + 1);
+    goDrawer(drawerIdx + 1);
     drawerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -427,10 +432,10 @@ export function CateringPreview() {
                 className="h-[calc(100%-60px)] overflow-y-auto"
               >
                 <Catering
-                  activeId={data.id}
+                  activeId={drawerData.id}
                   onActiveChange={(id) => {
                     const i = CATERING_OPCIONES.findIndex((o) => o.id === id);
-                    if (i >= 0) go(i);
+                    if (i >= 0) goDrawer(i);
                   }}
                 />
 
