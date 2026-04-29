@@ -22,6 +22,7 @@ const TEASERS: Record<string, string> = {
 export function CateringPreview() {
   const [idx, setIdx] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const data = CATERING_OPCIONES[idx];
   const total = CATERING_OPCIONES.length;
   const drawerRef = useRef<HTMLDivElement | null>(null);
@@ -30,27 +31,60 @@ export function CateringPreview() {
 
   // Mini foto-rotación dentro del slide activo
   const [photoIdx, setPhotoIdx] = useState(0);
+  const fotosCount = data.fotos.length;
+  const prevPhoto = () =>
+    setPhotoIdx((i) => (i - 1 + fotosCount) % fotosCount);
+  const nextPhoto = () => setPhotoIdx((i) => (i + 1) % fotosCount);
+
   useEffect(() => {
     setPhotoIdx(0);
+  }, [idx]);
+
+  useEffect(() => {
+    if (lightboxOpen) return;
     const id = setInterval(
-      () => setPhotoIdx((i) => (i + 1) % data.fotos.length),
+      () => setPhotoIdx((i) => (i + 1) % fotosCount),
       4000
     );
     return () => clearInterval(id);
-  }, [idx, data.fotos.length]);
+  }, [idx, fotosCount, lightboxOpen]);
 
-  // Lock body scroll mientras el drawer está abierto + ESC para cerrar
+  // ESC + flechas para el lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxOpen(false);
+      if (e.key === "ArrowLeft") prevPhoto();
+      if (e.key === "ArrowRight") nextPhoto();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightboxOpen, fotosCount]);
+
+  // Lock body scroll mientras el drawer está abierto + ESC para cerrar.
+  // Nota: el Catering interior también lockea overflow cuando abre su lightbox.
+  // Para evitar que su cleanup (corre al desmontar tras la animación de salida)
+  // deje overflow:"hidden" pegado, forzamos un reset diferido.
   useEffect(() => {
     if (!drawerOpen) return;
-    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setDrawerOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
+      // Re-asegurar después de que termine la animación de salida del drawer
+      // y el unmount de Catering (que restaura un valor stale "hidden").
+      window.setTimeout(() => {
+        document.body.style.overflow = "";
+      }, 700);
     };
   }, [drawerOpen]);
 
@@ -155,21 +189,45 @@ export function CateringPreview() {
                 className="grid gap-6 md:grid-cols-12 md:gap-10"
               >
                 <div className="md:col-span-7">
-                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl ring-1 ring-ink/10">
+                  <div className="group/photo relative aspect-[16/10] w-full overflow-hidden rounded-3xl ring-1 ring-ink/10">
                     <AnimatePresence mode="sync">
                       <motion.img
                         key={`${data.id}-${photoIdx}`}
                         src={data.fotos[photoIdx]}
                         alt={`${data.nombre} foto ${photoIdx + 1}`}
+                        onClick={() => setLightboxOpen(true)}
                         initial={{ opacity: 0, scale: 1.04 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1, ease: easeOrganic }}
-                        className="absolute inset-0 h-full w-full object-cover"
+                        className="absolute inset-0 h-full w-full cursor-zoom-in object-cover"
                         loading="lazy"
                       />
                     </AnimatePresence>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+
+                    <button
+                      type="button"
+                      aria-label="Foto anterior"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevPhoto();
+                      }}
+                      className="absolute left-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Foto siguiente"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextPhoto();
+                      }}
+                      className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-all hover:bg-mustard hover:text-ink active:scale-95"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
 
                     <div className="absolute inset-x-5 bottom-5 flex gap-1.5">
                       {data.fotos.slice(0, 6).map((_, i) => (
@@ -239,6 +297,76 @@ export function CateringPreview() {
           </div>
         </div>
       </section>
+
+      {/* Lightbox de fotos */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: easeOrganic }}
+            onClick={() => setLightboxOpen(false)}
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-ink/90 backdrop-blur-md p-4 md:p-10"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Foto ampliada"
+          >
+            <button
+              type="button"
+              aria-label="Cerrar"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(false);
+              }}
+              className="absolute right-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-colors hover:bg-mustard hover:text-ink"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Foto anterior"
+              onClick={(e) => {
+                e.stopPropagation();
+                prevPhoto();
+              }}
+              className="absolute left-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-colors hover:bg-mustard hover:text-ink md:left-8"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              type="button"
+              aria-label="Foto siguiente"
+              onClick={(e) => {
+                e.stopPropagation();
+                nextPhoto();
+              }}
+              className="absolute right-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-paper/30 bg-ink/60 text-paper backdrop-blur transition-colors hover:bg-mustard hover:text-ink md:right-8"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={`lb-${data.id}-${photoIdx}`}
+                src={data.fotos[photoIdx]}
+                alt={`${data.nombre} foto ${photoIdx + 1}`}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.35, ease: easeOrganic }}
+                onClick={(e) => e.stopPropagation()}
+                className="max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
+              />
+            </AnimatePresence>
+
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.3em] text-paper/70">
+              {photoIdx + 1} / {fotosCount}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Drawer lateral con el catering completo */}
       <AnimatePresence>
