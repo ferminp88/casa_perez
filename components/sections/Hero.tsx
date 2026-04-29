@@ -79,7 +79,7 @@ export function Hero() {
       {/* Header content */}
       <motion.div
         style={{ y: titleY }}
-        className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-16 pt-32 md:pb-24"
+        className="container-x relative z-10 flex min-h-[100svh] flex-col justify-start pb-12 pt-24 md:justify-end md:pb-24 md:pt-32"
       >
         {/* Badge superior con mono + dot pulse */}
         <motion.div
