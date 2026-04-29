@@ -13,11 +13,10 @@ export function Espacios() {
   const activeIndex = ESPACIOS.findIndex((e) => e.id === activeId);
 
   return (
-    <section id="espacios" data-nav-theme="light" className="relative bg-paper">
+    <section id="espacios" data-nav-theme="light" className="relative bg-white">
       {/* Header de la sección */}
-      <div className="relative overflow-hidden bg-paper pt-24 pb-12 md:pt-32 md:pb-16">
-        <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-30" />
-        <div className="absolute inset-0 bg-dot-grid opacity-50" />
+      <div className="relative overflow-hidden bg-white pt-24 pb-12 md:pt-32 md:pb-16">
+
         <div className="container-x relative">
           <Reveal className="flex flex-col items-end justify-between gap-6 md:flex-row">
             <Reveal.Item className="max-w-3xl">
@@ -59,16 +58,14 @@ export function Espacios() {
                   <button
                     type="button"
                     onClick={() => setActiveId(e.id)}
-                    className={`group relative inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13px] tracking-wide transition-all ${
-                      isActive
-                        ? "border-ink bg-ink text-paper shadow-soft"
-                        : "border-ink/15 bg-ink/5 text-ink/75 hover:border-ink/40 hover:bg-ink/10 hover:text-ink"
-                    }`}
+                    className={`group relative inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13px] tracking-wide transition-all ${isActive
+                      ? "border-ink bg-ink text-paper shadow-soft"
+                      : "border-ink/15 bg-ink/5 text-ink/75 hover:border-ink/40 hover:bg-ink/10 hover:text-ink"
+                      }`}
                   >
                     <span
-                      className={`font-mono text-[10px] tracking-[0.2em] ${
-                        isActive ? "text-mustard" : "text-mustard-deep"
-                      }`}
+                      className={`font-mono text-[10px] tracking-[0.2em] ${isActive ? "text-mustard" : "text-mustard-deep"
+                        }`}
                     >
                       0{i + 1}
                     </span>
@@ -82,7 +79,7 @@ export function Espacios() {
       </div>
 
       {/* Panel del salón activo */}
-      <div className="relative bg-paper pb-16 md:pb-20">
+      <div className="relative bg-white pb-16 md:pb-20">
         <div className="container-x relative">
           <AnimatePresence mode="wait">
             <motion.div
@@ -292,9 +289,8 @@ function Carousel({ photos, nombre }: { photos: string[]; nombre: string }) {
             key={src}
             type="button"
             onClick={() => go(i)}
-            className={`relative aspect-square overflow-hidden rounded-md ring-1 transition-all ${
-              i === idx ? "ring-2 ring-mustard-deep" : "ring-ink/10 hover:ring-ink/30"
-            }`}
+            className={`relative aspect-square overflow-hidden rounded-md ring-1 transition-all ${i === idx ? "ring-2 ring-mustard-deep" : "ring-ink/10 hover:ring-ink/30"
+              }`}
             aria-label={`Ir a foto ${i + 1}`}
           >
             <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />

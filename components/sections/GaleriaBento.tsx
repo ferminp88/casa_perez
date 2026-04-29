@@ -64,8 +64,7 @@ export function GaleriaBento() {
   }, [zoom]);
 
   return (
-    <section id="galeria" className="relative bg-night py-12 md:py-16 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-fiesta-mesh opacity-25" />
+    <section id="galeria" className="relative bg-black py-12 md:py-16 overflow-hidden">
 
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">

@@ -36,8 +36,9 @@ export function Videos() {
   }, []);
 
   return (
-    <section id="videos" className="relative bg-night py-12 md:py-16 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-magenta-glow opacity-40" />
+    <section id="videos" className="relative bg-obsidian py-12 md:py-16 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-violet-glow opacity-50" />
+      <div className="absolute inset-0 bg-dot-grid opacity-25" />
       <div className="container-x relative">
         <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
           <Reveal.Item>

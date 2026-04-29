@@ -55,36 +55,35 @@ export function Contacto() {
           </Reveal.Item>
 
           <Reveal.Item className="md:col-span-5 md:col-start-8">
-            <ul className="space-y-3">
+            <ul className="divide-y divide-bone/15 border-y border-bone/15">
               {CONTACT.addresses.map((a, i) => (
-                <li key={a.label} className="group glass-card relative overflow-hidden rounded-2xl p-6 transition-all hover:bg-bone/8">
+                <li key={a.label} className="relative py-5">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-magenta">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-mustard">
                         {a.label}
                       </p>
-                      <p className="mt-3 font-display text-lg font-medium text-bone">
+                      <p className="mt-2 font-display text-lg font-medium text-bone">
                         {a.line}
                       </p>
-                      <p className="mt-1 text-sm text-bone/60">{a.city}</p>
+                      <p className="mt-1 text-sm text-bone/85">{a.city}</p>
                     </div>
-                    <span className="font-mono text-[10px] text-bone/40">0{i + 1}</span>
+                    <span className="font-mono text-[10px] text-bone/60">0{i + 1}</span>
                   </div>
-                  <MapPin className="absolute -right-3 -bottom-3 h-16 w-16 text-bone/5 transition-colors group-hover:text-magenta/20" strokeWidth={1} />
                 </li>
               ))}
             </ul>
 
-            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <a href={`tel:${CONTACT.phoneTel}`} className="glass-card group rounded-2xl p-5 transition-all hover:bg-bone/8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">Teléfono</p>
+            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <a href={`tel:${CONTACT.phoneTel}`} className="group">
+                <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Teléfono</p>
                 <p className="mt-2 flex items-center gap-2 font-display text-base font-medium text-bone">
                   <Phone className="h-4 w-4 text-lime" strokeWidth={1.5} />
                   {CONTACT.phone}
                 </p>
               </a>
-              <a href={`mailto:${CONTACT.email}`} className="glass-card group rounded-2xl p-5 transition-all hover:bg-bone/8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">Email</p>
+              <a href={`mailto:${CONTACT.email}`} className="group">
+                <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Email</p>
                 <p className="mt-2 flex items-center gap-2 font-display text-sm font-medium text-bone">
                   <Mail className="h-4 w-4 flex-none text-lime" strokeWidth={1.5} />
                   <span className="break-all">{CONTACT.email}</span>
@@ -92,10 +91,10 @@ export function Contacto() {
               </a>
             </div>
 
-            <div className="mt-3 glass-card flex items-center gap-3 rounded-2xl p-5">
+            <div className="mt-6 flex items-center gap-3">
               <Clock className="h-4 w-4 flex-none text-magenta" strokeWidth={1.5} />
-              <p className="text-sm text-bone/85">
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">Atención · </span>
+              <p className="text-sm text-bone">
+                <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-bone/70">Atención · </span>
                 {CONTACT.hours}
               </p>
             </div>

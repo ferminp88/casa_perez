@@ -37,14 +37,14 @@ export function MarqueeStripBrand() {
   return (
     <section
       aria-hidden
-      className="relative overflow-hidden bg-night py-6 md:py-10"
+      className="relative overflow-hidden bg-night py-2 md:py-3"
     >
       <div className="mask-fade-x">
         <TextMarquee
           baseVelocity={-1.8}
           scrollDependent
           delay={200}
-          className="font-display font-medium tracking-tightest text-fiesta"
+          className="!text-[1.6vw] font-display font-medium tracking-tightest text-fiesta"
         >
           Casa Pérez Multiespacio · ✦ · City Bell · ✦ ·</TextMarquee>
       </div>

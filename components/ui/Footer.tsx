@@ -1,16 +1,10 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import { CONTACT } from "@/lib/content";
 
 export function Footer() {
-  const ref = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const wordY = useTransform(scrollYProgress, [0, 1], ["20%", "-5%"]);
-
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-night text-bone border-t border-bone/8">
+    <footer className="relative overflow-hidden bg-night text-bone border-t border-bone/8">
       <div className="pointer-events-none absolute inset-0 bg-fiesta-mesh opacity-30" />
 
       <div className="container-x relative pt-24">
@@ -52,14 +46,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Wordmark gigante con gradiente animado */}
-        <motion.div style={{ y: wordY }} className="pointer-events-none mt-16 select-none">
-          <p className="font-display text-balance text-[20vw] font-medium leading-[0.85] tracking-tightest text-fiesta">
-            Casa <span className="font-editorial italic">Pérez</span>
-          </p>
-        </motion.div>
-
-        <div className="mt-10 border-t border-bone/8 py-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bone/45">
+        <div className="mt-16 border-t border-bone/8 py-6 font-mono text-[10px] uppercase tracking-[0.2em] text-bone/45">
           <p>© {new Date().getFullYear()} Casa Pérez Multiespacio · Todos los derechos reservados</p>
         </div>
       </div>

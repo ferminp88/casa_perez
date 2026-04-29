@@ -23,9 +23,9 @@ export default function HomePage() {
       <Espacios />
       <Videos />
       <GaleriaBento />
-      <PropuestaValor />
       <Servicios />
       <CateringPreview />
+      <PropuestaValor />
       <Testimonios />
       <MarqueeStripBrand />
       <Contacto />

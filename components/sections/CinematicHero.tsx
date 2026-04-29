@@ -68,7 +68,7 @@ export function CinematicHero() {
       {/* Capa imagen + ken-burns + parallax + tilt */}
       <motion.div
         style={{ y: imgY, scale: imgScale, rotateX: tiltX, rotateY: tiltY, x: tx, transformStyle: "preserve-3d" }}
-        className="absolute inset-0"
+        className="absolute -inset-x-[6%] -top-[10%] -bottom-[35%]"
       >
         <AnimatePresence mode="sync">
           <motion.div
@@ -101,12 +101,6 @@ export function CinematicHero() {
         animate={{ scaleY: 1 }}
         transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
         className="absolute inset-x-0 top-0 z-20 h-9 origin-top bg-night md:h-12"
-      />
-      <motion.div
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 1, ease: easeOrganic, delay: 0.2 }}
-        className="absolute inset-x-0 bottom-0 z-20 h-9 origin-bottom bg-night md:h-12"
       />
 
       {/* Header content */}

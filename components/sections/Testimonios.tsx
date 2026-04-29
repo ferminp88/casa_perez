@@ -83,17 +83,17 @@ export function Testimonios() {
 
 function Card({ t }: { t: typeof TESTIMONIOS[number] }) {
   return (
-    <article className="glass-card group relative flex w-[300px] flex-shrink-0 flex-col rounded-2xl p-6 transition-colors hover:bg-bone/8 sm:w-[340px] md:w-[380px]">
-      <Quote className="absolute -top-2 -left-1 h-8 w-8 text-magenta/30" strokeWidth={1.5} />
-      <p className="text-sm leading-relaxed text-bone/85 md:text-[15px]">
+    <article className="group relative flex w-[300px] flex-shrink-0 flex-col rounded-2xl border border-black/10 bg-bone p-6 shadow-soft transition-colors hover:bg-white sm:w-[340px] md:w-[380px]">
+      <Quote className="absolute -top-2 -left-1 h-8 w-8 text-magenta/40" strokeWidth={1.5} />
+      <p className="text-[13px] leading-relaxed text-black md:text-[15px]">
         {t.txt}
       </p>
-      <div className="mt-auto flex items-center justify-between border-t border-bone/8 pt-4">
+      <div className="mt-auto flex items-center justify-between border-t border-black/10 pt-4">
         <div>
-          <p className="font-display text-sm font-medium tracking-tight text-bone">
+          <p className="font-display text-sm font-medium tracking-tight text-black">
             {t.nombre}
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-wider text-bone/50">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-black/55">
             {t.evento}
           </p>
         </div>

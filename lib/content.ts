@@ -559,7 +559,7 @@ export const TESTIMONIOS = [
 
 // 12 videos del canal (carrusel/grid en sección Videos)
 export const VIDEOS = [
-  "_Z4wn9Q8Wiw", "2WYuDlVODYU", "4pEGJNpb1WA", "AKBHihHBj6w",
-  "aL8XMCEk5dU", "gq8_l5PQCoA", "GS6CulBerEA", "GwXqUotVOYc",
+  "_Z4wn9Q8Wiw", "2WYuDlVODYU", "AKBHihHBj6w",
+  "aL8XMCEk5dU", "gq8_l5PQCoA", "GwXqUotVOYc",
   "N5WtjfpN6ZE", "Nrs4kH079io", "nvOBqmqA6Kw", "oKTPS70NIfs",
 ];
