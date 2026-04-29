@@ -24,7 +24,7 @@ export function Testimonios() {
       <div className="absolute inset-0 bg-dot-grid opacity-30" />
 
       <div className="container-x relative">
-        <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+        <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <Reveal.Item className="max-w-3xl">
             <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-violet-glow">
               <span className="block h-px w-6 bg-violet" />
