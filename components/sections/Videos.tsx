@@ -40,7 +40,7 @@ export function Videos() {
       <div className="pointer-events-none absolute inset-0 bg-violet-glow opacity-50" />
       <div className="absolute inset-0 bg-dot-grid opacity-25" />
       <div className="container-x relative">
-        <Reveal className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+        <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <Reveal.Item>
             <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-magenta">
               <span className="block h-px w-6 bg-magenta" />

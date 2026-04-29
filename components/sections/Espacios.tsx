@@ -18,7 +18,7 @@ export function Espacios() {
       <div className="relative overflow-hidden bg-white pt-24 pb-12 md:pt-32 md:pb-16">
 
         <div className="container-x relative">
-          <Reveal className="flex flex-col items-end justify-between gap-6 md:flex-row">
+          <Reveal className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <Reveal.Item className="max-w-3xl">
               <p className="mb-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-mustard-deep">
                 <span className="block h-px w-6 bg-mustard-deep" />

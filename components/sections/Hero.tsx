@@ -51,7 +51,7 @@ export function Hero() {
             animate={{ opacity: 0.35, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.8, ease: easeOrganic }}
-            className="absolute inset-0 bg-cover bg-center mask-fade-b"
+            className="absolute inset-0 bg-contain bg-top bg-no-repeat md:bg-cover md:bg-center mask-fade-b"
             style={{ backgroundImage: `url(${HERO_IMAGES[idx]})` }}
           />
         </AnimatePresence>
