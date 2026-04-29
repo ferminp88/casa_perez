@@ -104,28 +104,26 @@ export function Catering({
           })}
         </div>
 
-        {/* Panel activo: carrusel horizontal arriba + menú en 2 columnas abajo */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={data.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, ease: easeOrganic }}
-            className="mt-12"
-          >
-            {/* Layout compacto: hero image cycling (izq) + menú 2 cols (der).
-                Ambos del mismo alto aprox para que no haya scroll largo. */}
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-              <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-                <HeroCycle fotos={data.fotos} nombre={data.nombre} />
-              </div>
-              <div className="lg:col-span-7">
-                <Menu menu={data.menu} />
-              </div>
+        {/* Panel activo: carrusel horizontal arriba + menú en 2 columnas abajo.
+            Sin AnimatePresence/key={data.id}: el unmount/remount al cambiar de
+            tab disparaba un bug donde los clicks dejaban de funcionar (probable
+            interacción entre AnimatePresence anidados, Lenis y el drawer). */}
+        <motion.div
+          key={data.id}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: easeOrganic }}
+          className="mt-12"
+        >
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
+              <HeroCycle fotos={data.fotos} nombre={data.nombre} />
             </div>
-          </motion.div>
-        </AnimatePresence>
+            <div className="lg:col-span-7">
+              <Menu menu={data.menu} />
+            </div>
+          </div>
+        </motion.div>
 
         {/* Bloque 2: Barra libre */}
         <div className="mt-20 md:mt-28">
